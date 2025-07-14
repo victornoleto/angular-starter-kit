@@ -3,7 +3,7 @@ import { Component, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { FormValidationDirective } from '../../../../shared/directives';
-import { AuthService, LoginPayload } from '../../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
     selector: 'app-login',
@@ -43,7 +43,7 @@ export class LoginComponent {
             return;
         }
 
-        let credentials: LoginPayload = {
+        let credentials: any = {
             email: this.form.value.email || '',
             password: this.form.value.password || '',
         };
@@ -52,13 +52,9 @@ export class LoginComponent {
             .subscribe({
                 next: (response) => {
                     console.log('Login successful', response);
-                    this.router.navigate(['/dashboard']).then(() => {
-                        //window.location.reload();
-                    });
                 },
                 error: (error) => {
                     console.error('Login failed', error);
-                    // Handle login error, e.g., show an error message
                 }
             });
     }

@@ -51,10 +51,10 @@ export class FormValidationDirective implements OnInit {
             const isSubmitted = this.submitted();
             const currentForm = this.form();
 
-            console.debug('FormValidationDirective effect', {
+            /* console.debug('FormValidationDirective effect', {
                 isSubmitted,
                 currentForm,
-            });
+            }); */
 
             if (isSubmitted && currentForm) {
                 this.validate();

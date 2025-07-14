@@ -1,102 +1,71 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Injectable, signal } from '@angular/core';
 import { firstValueFrom, Observable, tap } from 'rxjs';
 import { env } from '../../../../env';
-
-export interface RegisterPayload {
-    name: string;
-    email: string;
-    password: string;
-    password_confirmation: string;
-}
-
-export interface RegisterResponse {
-    message: string;
-    user: {
-        id: number;
-        name: string;
-        email: string;
-    };
-}
-
-export interface LoginPayload {
-    email: string;
-    password: string;
-}
-
-export interface LoginResponse {
-    [key: string]: any; // Adjust based on actual response structure
-}
+import { User } from '../models/user';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthService {
+
+    user = signal<User | null>(null);
+
+    authState = signal<boolean>(false);
     
     constructor(private http: HttpClient) {}
     
-    login(data: LoginPayload): Observable<LoginResponse> {
-        return this.http.post<LoginResponse>(`${env.url}/api/login`, data);
+    login(data: any): Observable<any> {
+        return this.http.post<any>(`${env.url}/api/login`, data).pipe(
+            tap((response: any) => {
+                console.debug('[AuthService] User logged in', response);
+                this.authState.set(true);
+            })
+        );
     }
 
     logout(): Observable<void> {
         return this.http.post<void>(`${env.url}/api/logout`, {}).pipe(
             tap(() => {
-                this.clearAuthCookies();
+                console.debug('[AuthService] User logged out');
+                this.authState.set(false);
+                this.user.set(null);
             })
         );
     }
 
-    getUser(): Observable<any> {
-        return this.http.get<any>(`${env.url}/api/user`);
+    getUser(): Observable<User> {
+        return this.http.get<User>(`${env.url}/api/user`).pipe(
+            tap((user: User) => {
+                console.debug('[AuthService] User updated', user);
+                this.user.set(user);
+            })
+        );
     }
 
     async isAuthenticated(): Promise<boolean> {
         try {
-            // Primeiro verifica se existe o cookie CSRF
-            const token = await this.sanctumCsrf();
-            if (!token) {
-                return false;
-            }
-
-            // Depois verifica se a sessão é válida fazendo uma chamada para a API
+            // Se no futuro a rota de obter o usuário ficar "pesada" demais,
+            // criar uma rota apenas para verificar a autenticação
             await firstValueFrom(this.getUser());
-            return true;
-        } catch (error: any) {
-            // Se retornar 401 ou qualquer erro, usuário não está autenticado
-            if (error?.status === 401) {
-                // Remove cookies inválidos
-                this.clearAuthCookies();
+            this.authState.set(true);
+        } catch (error: HttpErrorResponse | any) {
+            if (error && error.status !== 401) {
+                console.error('[AuthService] Error checking initial auth state', error);
             }
-            return false;
+            this.authState.set(false);
         }
-    }
-
-    private clearAuthCookies(): void {
-        // Remove o cookie XSRF-TOKEN
-        document.cookie = 'XSRF-TOKEN=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-        // Remove o cookie de sessão do Laravel se existir
-        document.cookie = 'laravel_session=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-        console.debug('Authentication cookies cleared');
+        return this.authState();
     }
 
     async sanctumCsrf(): Promise<string | null> {
         
-        let token = this.getTokenFromCookie();
-        
-        // Se não existir o token, buscar no backend
-        if (!token) {
-            await firstValueFrom(
-                this.http.get(`${env.url}/sanctum/csrf-cookie`)
-            );
-            token = this.getTokenFromCookie();
-        }
-        
-        return token;
-    }
-    
-    private getTokenFromCookie(): string | null {
+        await firstValueFrom(
+            this.http.get(`${env.url}/sanctum/csrf-cookie`)
+        );
+
         const match = document.cookie.match(/XSRF-TOKEN=([^;]+)/);
+        
         return match ? decodeURIComponent(match[1]) : null;
     }
 }

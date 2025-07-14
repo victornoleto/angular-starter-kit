@@ -20,17 +20,9 @@ export class Dashboard {
             .subscribe({
                 next: () => {
                     console.debug('Logout successful');
-                    
-                    // Redireciona para a página de login após logout
-                    this.router.navigate(['/auth/login']).then(() => {
-                        // Força um reload da página para garantir que o estado seja limpo
-                        window.location.reload();
-                    });
                 },
                 error: (error) => {
                     console.error('Logout failed:', error);
-                    // Mesmo em caso de erro, limpa os cookies localmente
-                    this.router.navigate(['/auth/login']);
                 }
             });
     }

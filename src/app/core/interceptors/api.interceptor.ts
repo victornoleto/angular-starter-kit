@@ -1,4 +1,3 @@
-// core/interceptors/csrf.interceptor.ts
 import {
     HttpRequest,
     HttpInterceptorFn,

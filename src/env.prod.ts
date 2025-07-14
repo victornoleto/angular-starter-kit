@@ -1,4 +1,5 @@
 export const env = {
     production: true,
-    url: 'https://api.minhaapp.com',
+    referer: 'app.starter-kit.local',
+    url: 'https://starter-kit.local',
 };

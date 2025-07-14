@@ -2,14 +2,14 @@ import { inject } from '@angular/core';
 import { Router, type CanActivateFn } from '@angular/router';
 import { AuthService } from '../auth/services/auth.service';
 
-export const guestGuard: CanActivateFn = async (route, state) => {
+export const guestGuard: CanActivateFn = (route, state) => {
 
     const router = inject(Router);
     const authService = inject(AuthService);
 
     try {
         // Verifica se o usuário está realmente autenticado (cookie + sessão válida)
-        const isAuthenticated = await authService.isAuthenticated();
+        const isAuthenticated = authService.authState();
 
         console.debug('GuestGuard status:', !isAuthenticated);
 

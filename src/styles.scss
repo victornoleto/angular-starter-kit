@@ -1,14 +1,14 @@
-// bootstrap
-@use 'assets/scss/bootstrap.scss';
-
 // fonts
-@use 'assets/fonts/geist/geist.css';
-@use 'assets/fonts/fontawesome/fontawesome.css';
+@use 'styles/fonts/geist.css';
+//@use 'styles/fonts/fontawesome.css';
+
+// bootstrap
+@use 'styles/bootstrap.scss';
 
 // components/ui
-@use 'assets/scss/components/ui/card.scss';
-@use 'assets/scss/components/ui/typography.scss';
-@use 'assets/scss/components/ui/form.scss';
+@use 'styles/components/ui/card.scss';
+@use 'styles/components/ui/typography.scss';
+@use 'styles/components/ui/form.scss';
 
 html,
 body {
