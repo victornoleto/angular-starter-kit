@@ -1,1 +1,20 @@
-/* You can add global styles to this file, and also import other style files */
+// bootstrap
+@use 'assets/scss/bootstrap.scss';
+
+// fonts
+@use 'assets/fonts/geist/geist.css';
+@use 'assets/fonts/fontawesome/fontawesome.css';
+
+// components/ui
+@use 'assets/scss/components/ui/card.scss';
+@use 'assets/scss/components/ui/typography.scss';
+@use 'assets/scss/components/ui/form.scss';
+
+html,
+body {
+    min-height: 100vh;
+}
+
+[data-lastpass-icon-root] {
+    display: none !important;
+}

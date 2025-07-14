@@ -1,0 +1,47 @@
+<div class="card custom-card">
+    <div class="card-header">
+        <h6 class="card-title fw-semibold mb-2">Login</h6>
+        <p class="card-subtitle mb-0 text-muted">Lorem ipsum dolor sit amet</p>
+    </div>
+    <div class="card-body">
+        <form
+            [formGroup]="form"
+            [appFormValidation]="form"
+            [formSubmitted]="formSubmmited()"
+        >
+            <div class="form-group mb-3">
+                <label class="mb-0" for="">E-mail</label>
+                <small class="d-block text-muted mb-1"
+                    >Lorem ipsum dolor sit amet.</small
+                >
+                <input
+                    type="text"
+                    class="form-control"
+                    formControlName="email"
+                    autocomplete="off"
+                />
+            </div>
+            <div class="form-group fc-password mb-4">
+                <label for="">Senha</label>
+                <input
+                    type="password"
+                    class="form-control"
+                    formControlName="password"
+                    autocomplete="off"
+                />
+            </div>
+            <button
+                type="button"
+                class="btn btn-primary w-100"
+                (click)="submit()"
+            >
+                Entrar
+            </button>
+            <div class="text-center mt-4">
+                <a [routerLink]="['/auth/register']">Criar nova conta</a>
+            </div>
+        </form>
+        <!-- <pre>{{ form.value | json }}</pre>
+        <pre>{{ formValid }}</pre> -->
+    </div>
+</div>

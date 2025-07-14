@@ -1,0 +1,18 @@
+.card {
+    --bs-card-box-shadow: 0 0.125rem 0 rgba(10, 10, 10, 0.04);
+    --bs-card-border-width: 0;
+    --bs-card-bg: #fff;
+    --bs-card-spacer-y: 1.25rem;
+    --bs-card-spacer-x: 1.25rem;
+    --bs-card-cap-padding-y: 1.25rem;
+    --bs-card-cap-padding-x: 1.25rem;
+    --bs-card-cap-bg: none;
+    box-shadow: var(--bs-card-box-shadow);
+
+    .card-header {
+    }
+
+    .card-header + .card-body {
+        padding-top: 0;
+    }
+}
