@@ -1,13 +1,15 @@
-<div class="card custom-card">
+<div class="card custom-card" [appLoading]="isLoading">
     <div class="card-header">
         <h6 class="card-title fw-semibold mb-2">Login</h6>
         <p class="card-subtitle mb-0 text-muted">Lorem ipsum dolor sit amet</p>
     </div>
     <div class="card-body">
+        <div #alertContainer></div>
+
         <form
             [formGroup]="form"
             [appFormValidation]="form"
-            [formSubmitted]="formSubmmited()"
+            [formSubmitted]="formSubmitted"
         >
             <div class="form-group mb-3">
                 <label class="mb-0" for="">E-mail</label>
@@ -24,6 +26,7 @@
             <div class="form-group fc-password mb-4">
                 <label for="">Senha</label>
                 <input
+                    appInputPassword
                     type="password"
                     class="form-control"
                     formControlName="password"
@@ -37,11 +40,12 @@
             >
                 Entrar
             </button>
-            <div class="text-center mt-3">
+            <div class="d-flex flex-column gap-2 text-center mt-3">
+                <a [routerLink]="['/auth/forgot-password']"
+                    >Esqueci minha senha</a
+                >
                 <a [routerLink]="['/auth/register']">Criar nova conta</a>
             </div>
         </form>
-        <!-- <pre>{{ form.value | json }}</pre>
-        <pre>{{ formValid }}</pre> -->
     </div>
 </div>

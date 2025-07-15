@@ -120,8 +120,8 @@ export class ExampleFormComponent {
             },
             {
                 validators: this.passwordMatchValidator,
-            }
-        )
+            },
+        ),
     );
 
     readonly submitted = signal(false);

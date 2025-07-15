@@ -1,0 +1,20 @@
+@use "bootstrap/scss/bootstrap" with (
+    // typography
+    $font-family-base: "Geist",
+    $font-size-base: 0.875rem,
+
+    // colors
+    //$primary: purple
+);
+
+// components/ui
+@use "./ui/card.scss";
+@use "./ui/typography.scss";
+@use "./ui/form.scss";
+@use "./ui/button.scss";
+@use "./ui/alert.scss";
+
+:root {
+    --bs-body-color: #333335;
+    --bs-body-bg: #f0f1f7;
+}

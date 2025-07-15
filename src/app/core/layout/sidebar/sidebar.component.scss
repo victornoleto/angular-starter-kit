@@ -1,0 +1,32 @@
+#sidebar {
+    --sidebar-bg-color: #1a1c1e;
+    --sidebar-border-color: rgba(255, 255, 255, 0.1);
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: var(--sidebar-bg-color);
+    border-inline-end: 1px solid var(--sidebar-border-color);
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    font-family: Montserrat, sans-serif;
+    z-index: 103;
+    transition: all 50ms ease;
+
+    #sidebar-header {
+        height: var(--header-height);
+        width: var(--sidebar-width);
+        //position: fixed;
+        display: flex;
+        z-index: 9;
+        align-items: center;
+        justify-content: center;
+        padding: .813rem 1.25rem;
+        border-inline-end: 1px solid var(--sidebar-border-color);
+        border-block-end: 1px solid var(--sidebar-border-color);
+        transition: all 50ms ease;
+
+        .desktop-logo {
+            height: 30px;
+        }
+    }
+}

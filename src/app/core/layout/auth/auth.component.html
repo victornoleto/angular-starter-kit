@@ -1,16 +1,7 @@
-<div class="page">
-    <div class="container-lg">
-        <div
-            class="row justify-content-center authentication authentication-basic align-items-center h-100"
-        >
-            <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-6 col-sm-8 col-12">
-                <div class="pt-3 pt-md-4 pt-lg-5">
-                    <div class="text-center mb-4">
-                        <img src="images/logo.webp" alt="Logo" class="img-fluid" style="max-height: 80px;">
-                    </div>
-                    <router-outlet></router-outlet>
-                </div>
-            </div>
-        </div>
-    </div>
+<app-header [sidebarOpened]="sidebarOpened()"></app-header>
+
+<app-sidebar></app-sidebar>
+
+<div id="main-content" [class.sidebar-open]="sidebarOpened()">
+    <router-outlet></router-outlet>
 </div>

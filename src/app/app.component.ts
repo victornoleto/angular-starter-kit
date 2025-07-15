@@ -10,23 +10,23 @@ import { env } from '../env';
     styleUrl: './app.component.scss',
 })
 export class AppComponent {
-
     constructor(
         private readonly authService: AuthService,
-        private readonly router: Router
+        private readonly router: Router,
     ) {
         effect(() => {
             const isAuthenticated = this.authService.authState();
             console.debug('Auth state changed', isAuthenticated);
-            if (!isAuthenticated) {
+            /* if (!isAuthenticated) {
                 this.router.navigate(['/auth/login']);
             } else {
                 this.router.navigate(['/dashboard']);
-            }
+            } */
         });
+        console.debug('AppComponent constructed');
     }
-    
+
     ngOnInit(): void {
-        console.log('AppComponent initialized', {env});
+        console.log('AppComponent initialized', { env });
     }
 }

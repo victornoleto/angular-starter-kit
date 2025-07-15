@@ -1,6 +1,34 @@
-# Desenvolvimento Frontend
+# Angular
 
-## Nginx
+O angular 20 removeu o sufixo que indicava qual era o tipo daquela classe. Para adicionar novamente basta ajustar o `angular.json` da seguinte forma:
+
+```json
+{
+  "projects": {
+    "app": {
+      ...
+      "schematics": {
+        "@schematics/angular:component": {
+            "type": "component",
+            "style": "scss"
+        },
+        "@schematics/angular:directive": { "type": "directive" },
+        "@schematics/angular:service": { "type": "service" },
+        "@schematics/angular:guard": { "typeSeparator": "." },
+        "@schematics/angular:interceptor": { "typeSeparator": "." },
+        "@schematics/angular:module": { "typeSeparator": "." },
+        "@schematics/angular:pipe": { "typeSeparator": "." },
+        "@schematics/angular:resolver": { "typeSeparator": "." }
+      },
+  ...
+}
+```
+
+Leitura recomendada:
+- https://www.reddit.com/r/Angular2/comments/1l9iq1s/angular_20_removing_suffixes_from_components/
+- https://www.reddit.com/r/Angular2/comments/1kzh729/angular_20_cli_generates_userts_instead_of/
+
+# Nginx
 
 Editar arquivo de configuração do nginx: `sudo nano /etc/nginx/sites-enabled/starter-kit-app`
 

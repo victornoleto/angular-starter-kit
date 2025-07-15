@@ -1,9 +1,9 @@
-import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export function equalsToValidator(
     fieldToCompare: string,
     label: string = fieldToCompare,
-    message: string = 'Este campo deve ter o valor igual ao campo {label}'
+    message: string = 'Este campo deve ter o valor igual ao campo {label}',
 ): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
         if (!control.parent) return null; // Parent ainda não está disponível

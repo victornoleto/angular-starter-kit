@@ -4,8 +4,6 @@ import {
     Renderer2,
     input,
     effect,
-    signal,
-    computed,
     inject,
     DestroyRef,
     OnInit,
@@ -70,7 +68,7 @@ export class FormValidationDirective implements OnInit {
         const currentForm = this.form();
         if (!currentForm) return;
 
-        Object.keys(currentForm.controls).forEach(fieldName => {
+        Object.keys(currentForm.controls).forEach((fieldName) => {
             const control = currentForm.get(fieldName);
             if (control) {
                 this.setupFieldValidation(fieldName, control);
@@ -80,7 +78,7 @@ export class FormValidationDirective implements OnInit {
 
     private setupFieldValidation(
         fieldName: string,
-        control: AbstractControl
+        control: AbstractControl,
     ): void {
         // Escutar mudanças no valor do campo
         control.valueChanges
@@ -103,49 +101,57 @@ export class FormValidationDirective implements OnInit {
 
     private validateField(fieldName: string, control: AbstractControl): void {
         const validationResult = this.getValidationResult(control);
-        const errorsContainerElement = this.getErrorsContainerElement(fieldName);
+        const errorsContainerElement =
+            this.getErrorsContainerElement(fieldName);
 
         if (!errorsContainerElement) return;
 
         // Limpar mensagens de erro anteriores
-        errorsContainerElement.childNodes.forEach(child => {
+        errorsContainerElement.childNodes.forEach((child) => {
             this.renderer.removeChild(errorsContainerElement, child);
         });
 
         if (validationResult.hasError) {
-
             errorsContainerElement.classList.remove('d-none');
 
             const errorElement = this.renderer.createElement('small');
 
             this.renderer.addClass(errorElement, 'error-message');
             this.renderer.addClass(errorElement, 'text-danger');
-            this.renderer.setProperty(errorElement, 'textContent', validationResult.message);
+            this.renderer.setProperty(
+                errorElement,
+                'textContent',
+                validationResult.message,
+            );
             this.renderer.appendChild(errorsContainerElement, errorElement);
-
         } else {
             errorsContainerElement.classList.add('d-none');
         }
     }
 
     private getErrorsContainerElement(fieldName: string): HTMLElement | null {
-        
-        var fieldElement = this.el.nativeElement.querySelector(`[formControlName="${fieldName}"]`);
+        var fieldElement = this.el.nativeElement.querySelector(
+            `[formControlName="${fieldName}"]`,
+        );
 
-        var containerElement = this.el.nativeElement.querySelector(`.form-error[data-field-name="${fieldName}"]`);
+        var containerElement = this.el.nativeElement.querySelector(
+            `.form-error[data-field-name="${fieldName}"]`,
+        );
 
         if (fieldElement) {
-
-            var customErrorsContainerId = fieldElement.getAttribute('data-errors-container-id');
+            var customErrorsContainerId = fieldElement.getAttribute(
+                'data-errors-container-id',
+            );
 
             if (customErrorsContainerId) {
-                containerElement = this.el.nativeElement.querySelector(`#${customErrorsContainerId}`);
+                containerElement = this.el.nativeElement.querySelector(
+                    `#${customErrorsContainerId}`,
+                );
             }
         }
 
         // Criar um elemento abaixo do input
         if (!containerElement && fieldElement) {
-
             containerElement = this.renderer.createElement('div');
             this.renderer.addClass(containerElement, 'd-block');
             this.renderer.addClass(containerElement, 'mt-1');
@@ -154,23 +160,35 @@ export class FormValidationDirective implements OnInit {
             const parent = fieldElement.parentNode;
             if (parent) {
                 if (fieldElement.nextSibling) {
-                    this.renderer.insertBefore(parent, containerElement, fieldElement.nextSibling);
+                    this.renderer.insertBefore(
+                        parent,
+                        containerElement,
+                        fieldElement.nextSibling,
+                    );
                 } else {
                     this.renderer.appendChild(parent, containerElement);
                 }
             }
         }
 
-        if (containerElement && !containerElement.classList.contains('form-error')) {
-            this.renderer.setAttribute(containerElement, 'data-field-name', fieldName);
+        if (
+            containerElement &&
+            !containerElement.classList.contains('form-error')
+        ) {
+            this.renderer.setAttribute(
+                containerElement,
+                'data-field-name',
+                fieldName,
+            );
             this.renderer.addClass(containerElement, 'form-error');
         }
 
         return containerElement;
     }
 
-    private getValidationResult(control: AbstractControl): FieldValidationState {
-
+    private getValidationResult(
+        control: AbstractControl,
+    ): FieldValidationState {
         if (!control.errors || !control.touched) {
             return { hasError: false, message: '' };
         }
@@ -185,7 +203,6 @@ export class FormValidationDirective implements OnInit {
     }
 
     private getErrorMessage(errorKey: string, errorValue: any): string {
-
         // Se o erro contém uma mensagem customizada
         if (typeof errorValue === 'string') {
             return errorValue;
@@ -209,12 +226,12 @@ export class FormValidationDirective implements OnInit {
 
         return message;
     }
-    
+
     public validate(scrollToError: boolean = false): void {
         const currentForm = this.form();
         if (!currentForm) return;
 
-        Object.keys(currentForm.controls).forEach(fieldName => {
+        Object.keys(currentForm.controls).forEach((fieldName) => {
             const control = currentForm.get(fieldName);
             if (control) {
                 // Marcar o campo como touched para triggerar validação

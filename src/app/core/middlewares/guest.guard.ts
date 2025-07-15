@@ -3,7 +3,6 @@ import { Router, type CanActivateFn } from '@angular/router';
 import { AuthService } from '../auth/services/auth.service';
 
 export const guestGuard: CanActivateFn = (route, state) => {
-
     const router = inject(Router);
     const authService = inject(AuthService);
 
@@ -16,9 +15,11 @@ export const guestGuard: CanActivateFn = (route, state) => {
         if (!isAuthenticated) {
             return true;
         }
-
     } catch (error) {
-        console.error('[GuestGuard] Não foi possível verificar a autenticação:', error);
+        console.error(
+            '[GuestGuard] Não foi possível verificar a autenticação:',
+            error,
+        );
         return true;
     }
 

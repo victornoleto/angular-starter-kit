@@ -2,25 +2,26 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { firstValueFrom, Observable, tap } from 'rxjs';
 import { env } from '../../../../env';
-import { User } from '../models/user';
+import { User } from '../models/user.model';
+import { LoginRequest, RegisterRequest } from '../models/auth.model';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthService {
-
     user = signal<User | null>(null);
 
     authState = signal<boolean>(false);
-    
+
     constructor(private http: HttpClient) {}
-    
-    login(data: any): Observable<any> {
-        return this.http.post<any>(`${env.url}/api/login`, data).pipe(
-            tap((response: any) => {
-                console.debug('[AuthService] User logged in', response);
+
+    login(data: LoginRequest): Observable<User> {
+        return this.http.post<User>(`${env.url}/api/login`, data).pipe(
+            tap((user: User) => {
+                console.debug('[AuthService] User logged in', {user});
+                this.user.set(user);
                 this.authState.set(true);
-            })
+            }),
         );
     }
 
@@ -28,18 +29,28 @@ export class AuthService {
         return this.http.post<void>(`${env.url}/api/logout`, {}).pipe(
             tap(() => {
                 console.debug('[AuthService] User logged out');
-                this.authState.set(false);
                 this.user.set(null);
-            })
+                this.authState.set(false);
+            }),
+        );
+    }
+
+    register(data: RegisterRequest): Observable<any> {
+        return this.http.post<User>(`${env.url}/api/register`, data).pipe(
+            tap((user: User) => {
+                console.debug('[AuthService] User registered', {user});
+                this.user.set(user);
+                this.authState.set(true);
+            }),
         );
     }
 
     getUser(): Observable<User> {
         return this.http.get<User>(`${env.url}/api/user`).pipe(
             tap((user: User) => {
-                console.debug('[AuthService] User updated', user);
+                console.debug('[AuthService] User updated', {user});
                 this.user.set(user);
-            })
+            }),
         );
     }
 
@@ -51,21 +62,22 @@ export class AuthService {
             this.authState.set(true);
         } catch (error: HttpErrorResponse | any) {
             if (error && error.status !== 401) {
-                console.error('[AuthService] Error checking initial auth state', error);
+                console.error(
+                    '[AuthService] Error checking initial auth state',
+                    error,
+                );
             }
             this.authState.set(false);
         }
+        console.debug('[AuthService] Auth state checked', this.authState());
         return this.authState();
     }
 
     async sanctumCsrf(): Promise<string | null> {
-        
-        await firstValueFrom(
-            this.http.get(`${env.url}/sanctum/csrf-cookie`)
-        );
+        await firstValueFrom(this.http.get(`${env.url}/sanctum/csrf-cookie`));
 
         const match = document.cookie.match(/XSRF-TOKEN=([^;]+)/);
-        
+
         return match ? decodeURIComponent(match[1]) : null;
     }
 }

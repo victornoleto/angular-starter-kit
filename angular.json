@@ -7,7 +7,29 @@
             "projectType": "application",
             "schematics": {
                 "@schematics/angular:component": {
+                    "type": "component",
                     "style": "scss"
+                },
+                "@schematics/angular:directive": {
+                    "type": "directive"
+                },
+                "@schematics/angular:service": {
+                    "type": "service"
+                },
+                "@schematics/angular:guard": {
+                    "typeSeparator": "."
+                },
+                "@schematics/angular:interceptor": {
+                    "typeSeparator": "."
+                },
+                "@schematics/angular:module": {
+                    "typeSeparator": "."
+                },
+                "@schematics/angular:pipe": {
+                    "typeSeparator": "."
+                },
+                "@schematics/angular:resolver": {
+                    "typeSeparator": "."
                 }
             },
             "root": "",
@@ -19,7 +41,10 @@
                     "options": {
                         "outputPath": "dist",
                         "browser": "src/main.ts",
-                        "polyfills": ["zone.js"],
+                        "polyfills": [
+                          "zone.js",
+                          "@angular/localize/init"
+                        ],
                         "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "scss",
                         "assets": [
@@ -28,7 +53,10 @@
                                 "input": "public"
                             }
                         ],
-                        "styles": ["src/styles.scss"]
+                        "styles": [
+                            "node_modules/animate.css/animate.min.css",
+                            "src/styles.scss"
+                        ]
                     },
                     "configurations": {
                         "production": {
@@ -78,7 +106,11 @@
                 "test": {
                     "builder": "@angular/build:karma",
                     "options": {
-                        "polyfills": ["zone.js", "zone.js/testing"],
+                        "polyfills": [
+                          "zone.js",
+                          "zone.js/testing",
+                          "@angular/localize/init"
+                        ],
                         "tsConfig": "tsconfig.spec.json",
                         "inlineStyleLanguage": "scss",
                         "assets": [

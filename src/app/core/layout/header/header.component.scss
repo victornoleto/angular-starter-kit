@@ -1,0 +1,13 @@
+#header {
+    min-height: var(--header-height);
+
+    @media (min-width: 992px) {
+
+        &.sidebar-open {
+            padding-inline-start: var(--sidebar-width);
+        }
+    }
+
+    @media (max-width: 991px) {
+    }
+}

@@ -1,21 +1,31 @@
-<div class="card custom-card">
+<div class="card custom-card" [appLoading]="isLoading">
     <div class="card-header">
         <h6 class="card-title fw-semibold mb-2">Cadastre-se</h6>
         <p class="card-subtitle mb-0 text-muted">Lorem ipsum dolor sit amet</p>
     </div>
+
     <div class="card-body">
+        <div #alertContainer></div>
+
         <form
             [formGroup]="form"
             [appFormValidation]="form"
-            [formSubmitted]="formSubmmited()"
+            [formSubmitted]="formSubmitted"
         >
             <div class="form-group mb-3">
                 <label for="">Nome</label>
-                <input type="text" class="form-control" formControlName="name" autocomplete="off" />
+                <input
+                    type="text"
+                    class="form-control"
+                    formControlName="name"
+                    autocomplete="off"
+                />
             </div>
             <div class="form-group mb-3">
                 <label class="mb-0" for="">E-mail</label>
-                <small class="d-block text-muted mb-1">Lorem ipsum dolor sit amet.</small>
+                <small class="d-block text-muted mb-1"
+                    >Lorem ipsum dolor sit amet.</small
+                >
                 <input
                     type="text"
                     class="form-control"
@@ -26,6 +36,7 @@
             <div class="form-group fc-password mb-4">
                 <label for="">Senha</label>
                 <input
+                    appInputPassword
                     type="password"
                     class="form-control"
                     formControlName="password"
@@ -35,6 +46,7 @@
             <div class="form-group fc-password mb-4">
                 <label for="">Confirmar senha</label>
                 <input
+                    appInputPassword
                     type="password"
                     class="form-control"
                     formControlName="password_confirmation"

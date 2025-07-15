@@ -10,9 +10,10 @@ export const routes: Routes = [
     },
     {
         path: 'auth',
-        loadComponent: () => import('./core/layout/auth/auth.component').then(
-            c => c.AuthComponent
-        ),
+        loadComponent: () =>
+            import('./core/layout/guest/guest.component').then(
+                (c) => c.GuestComponent,
+            ),
         canActivate: [guestGuard],
         title: 'Autenticação',
         children: [
@@ -20,7 +21,7 @@ export const routes: Routes = [
                 path: 'login',
                 loadComponent: () =>
                     import('./core/auth/pages/login/login.component').then(
-                        c => c.LoginComponent
+                        (c) => c.LoginComponent,
                     ),
                 title: 'Login',
             },
@@ -29,23 +30,27 @@ export const routes: Routes = [
                 loadComponent: () =>
                     import(
                         './core/auth/pages/register/register.component'
-                    ).then(c => c.RegisterComponent),
+                    ).then((c) => c.RegisterComponent),
                 title: 'Registrar',
             },
-        ]
+        ],
     },
     {
         path: '',
         canActivate: [authGuard],
+        loadComponent: () =>
+            import('./core/layout/auth/auth.component').then(
+                (c) => c.AuthComponent,
+            ),
         children: [
             {
                 path: 'dashboard',
                 loadComponent: () =>
                     import('./feature/home/pages/dashboard/dashboard').then(
-                        c => c.Dashboard
+                        (c) => c.Dashboard,
                     ),
                 title: 'Dashboard',
-            }
-        ]
+            },
+        ],
     },
 ];
