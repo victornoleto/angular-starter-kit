@@ -1,16 +1,17 @@
 #sidebar {
-    --sidebar-bg-color: #1a1c1e;
-    --sidebar-border-color: rgba(255, 255, 255, 0.1);
+    --sidebar-bg-color: #111c43;
+    --sidebar-border-color: #ffffff1a;
+    --sidebar-menu-color: #a3aed1;
     width: var(--sidebar-width);
     height: 100vh;
     background: var(--sidebar-bg-color);
-    border-inline-end: 1px solid var(--sidebar-border-color);
     position: fixed;
     inset-block-start: 0;
     inset-inline-start: 0;
-    font-family: Montserrat, sans-serif;
     z-index: 103;
     transition: all 50ms ease;
+    display: flex;
+    flex-direction: column;
 
     #sidebar-header {
         height: var(--header-height);
@@ -25,8 +26,217 @@
         border-block-end: 1px solid var(--sidebar-border-color);
         transition: all 50ms ease;
 
-        .desktop-logo {
-            height: 30px;
+        img {
+            height: 32px;
+        }
+    }
+
+    #sidebar-body {
+        flex-grow: 1;
+        position: relative;
+
+        #main-menu {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            padding: .75rem .75rem 80px;
+        }
+
+        .menu-section {
+            
+            legend {
+                color: #a3aed1;
+                font-size: .6rem;
+                font-weight: 600;
+                letter-spacing: .065rem;
+                text-transform: uppercase;
+                padding: .75rem .95rem;
+                white-space: nowrap;
+                opacity: .5;
+                position: relative;
+                margin: 0;
+            }
+        }
+    }
+
+    .slide-menu-item {
+        //margin-block: .25rem; // distância entre um item e outro
+        padding: .75rem;
+        position: relative;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: var(--sidebar-menu-color);
+        font-weight: 500;
+        border-radius: .5rem;
+        background: none;
+
+        &[data-level="0"] {
+            margin: .25rem 0;
+        }
+
+        .slide-menu-icon {
+            margin-inline-end: .625rem;
+            width: 1.15rem;
+            height: 1.15rem;
+            font-size: 1rem;
+            text-align: center;
+            border-radius: .5rem;
+        }
+
+        &:hover,
+        &.active {
+            background-color: rgba(255,255,255,.05);
+            color: #fff;
+        }
+    }
+
+    // filtros de um slide-menu-item
+    .slide-menu-children {
+        padding-left: 1rem;
+        
+        .slide-menu-item {
+            padding: .5rem;
+            padding-right: .75rem; // isso mantém o mesmo alinhamento dos "chevron"
+            font-size: 13px;
+
+            span {
+                font-weight: 400;
+            }
+
+            &::before {
+                font-family: "Font Awesome 6 Pro";
+                font-weight: 300;
+                content: "\f111";
+                font-size: 7px;
+                margin-right: 8px;
+            }
+        }
+    }
+
+    /* resetar estilos do bootstrap accordion */
+    .accordion {
+        --bs-accordion-body-padding-y: 0;
+        --bs-accordion-body-padding-x: 0;
+        --bs-accordion-btn-padding-y: 0;
+        --bs-accordion-btn-padding-x: 0;
+        --bs-accordion-bg: none;
+        --bs-accordion-border-width: 0;
+        .accordion-item {
+
+            .accordion-button {
+                box-shadow: none;
+                position: relative;
+
+                &::after {
+                    background: none;
+                    transform: none;
+                    width: unset;
+                    height: unset;
+                    font-family: "Font Awesome 6 Pro";
+                    font-weight: 300;
+                    content: "\f078";
+                    font-size: 12px !important;
+                }
+                
+                // accordion fechado
+                &.collapsed::after {
+                    content: "\f054";
+                }
+            }
+
+            .accordion-collapse {
+                .accordion-body {
+                    padding: 0;
+                }
+            }
+        }
+    }
+
+    // telas maiores
+    @media (min-width: 992px) {
+
+        // sidebar aberta completamente
+        &:not(.sidebar-toggled) {
+
+            #sidebar-header .header-logo .mobile-logo {
+                display: none;
+            }
+        }
+
+        // sidebar aberta apenas ícones
+        &.sidebar-toggled {
+
+            &:not(:hover) {
+
+                &, #sidebar-header {
+                    width: var(--sidebar-collapsed-width);
+                }
+
+                #sidebar-header .header-logo {
+                    .mobile-logo {
+                        display: block;
+                    }
+                    .desktop-logo {
+                        display: none;
+                    }
+                }
+
+                .slide-menu-item {
+                    justify-content: center;
+                    
+                    span, &::after {
+                        display: none;
+                    }
+
+                    .slide-menu-icon {
+                        margin: 0;
+                    }
+                }
+
+                .slide-menu-children {
+                    display: none;
+                }
+
+                .menu-section legend {
+                    color: transparent !important;
+
+                    // substituir label por ícone
+                    &::before {
+                        color: rgba(255, 255, 255, .5);
+                        font-family: "Font Awesome 6 Pro";
+                        font-weight: 300;
+                        content: "\f111";
+                        font-size: 7px;
+                        padding-left: 9px;
+                    }
+                }
+            }
+
+            &:hover {
+                #sidebar-header .header-logo {
+                    .mobile-logo {
+                        display: none;
+                    }
+                    .desktop-logo {
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+
+    @media (max-width: 991px) {
+
+        &.sidebar-toggled {
+        }
+
+        // sidebar fechada
+        &:not(.sidebar-toggled) {
+            transform: translateX(-100%);
         }
     }
 }

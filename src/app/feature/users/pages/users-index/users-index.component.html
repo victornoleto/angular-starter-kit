@@ -1,0 +1,21 @@
+<div id="users-index-page" class="page">
+    
+    <div class="d-flex flex-column mb-3">
+        <h3 class="fw-bold mb-1">Usuários</h3>
+        <p class="text-muted m-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, et!</p>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <pre>Current page: {{ currentPage() }}</pre>
+            <pre>Current per page: {{ currentPerPage() }}</pre>
+            <app-users-filters
+                (onChange)="onFiltersChange()"></app-users-filters>
+            <app-users-table
+                [users]="users()"
+                (pageChange)="onPageChange($event)"
+                (perPageChange)="onPerPageChange($event)"></app-users-table>
+        </div>
+    </div>
+
+</div>

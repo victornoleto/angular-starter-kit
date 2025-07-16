@@ -1,0 +1,52 @@
+<div class="table-responsive">
+    <app-per-page
+        [value]="users()?.per_page"
+        (onChange)="onPerPageChange($event)"
+    />
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Dt. criação</th>
+                <th>Dt. atualização</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!isLoading()) {
+                @for (user of usersData(); track user.id) {
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.created_at }}</td>
+                        <td>{{ user.updated_at }}</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary me-2">
+                                Editar
+                            </button>
+                            <button class="btn btn-sm btn-danger">
+                                Excluir
+                            </button>
+                        </td>
+                    </tr>
+                } @empty {
+                    <tr>
+                        <td colspan="6" class="text-center">
+                            Nenhum usuário encontrado
+                        </td>
+                    </tr>
+                }
+            } @else {
+                <tr>
+                    <td colspan="6" class="text-center">Carregando...</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <app-pagination [pagination]="users()" (onChange)="onPageChange($event)" />
+</div>

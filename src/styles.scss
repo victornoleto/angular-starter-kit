@@ -1,12 +1,15 @@
 // fonts
-@use "styles/fonts/geist.css";
+@use 'styles/fonts/geist.css';
 @use 'styles/fonts/fontawesome.css';
 
 // bootstrap
-@use "styles/bootstrap/bootstrap.scss";
+@use 'styles/bootstrap/bootstrap.scss';
 
-// variables
-@use "styles/variables.scss";
+// components
+@use 'styles/components/scrollbar.scss';
+
+// main layout
+@use 'styles/layout.scss';
 
 html,
 body {
@@ -16,5 +19,3 @@ body {
 [data-lastpass-icon-root] {
     display: none !important;
 }
-/* Importing Bootstrap SCSS file. */
-@import 'bootstrap/scss/bootstrap';

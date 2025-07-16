@@ -1,56 +1,23 @@
-<nav id="sidebar">
-    
+<nav id="sidebar" [class.sidebar-toggled]="sidebarToggled()">
     <div id="sidebar-header">
-        
-        <a href="" class="header-logo" [routerLink]="['/']">
-            <img src="images/logo-light.webp" class="desktop-logo" alt="" />
+        <a class="header-logo" [routerLink]="['/']">
+            <img src="images/logo.png" class="desktop-logo" alt="Logo" />
+            <img src="images/logo-sm.png" class="mobile-logo" alt="Logo" />
         </a>
-        
     </div>
-    
-    <div id="sidebar-body" class="text-light">
-        
-        <!-- <pre>{{ sections | json }}</pre> -->
 
-        @for (section of sections; track section) {
-            <app-sidebar-menu-section [section]="section"></app-sidebar-menu-section>
-        }
-        
-        <!-- <div ngbAccordion>
-            <div ngbAccordionItem [collapsed]="false">
-                <h2 ngbAccordionHeader>
-                    <button ngbAccordionButton>Simple</button>
-                </h2>
-                <div ngbAccordionCollapse>
-                    <div ngbAccordionBody>
-                        <ng-template>3</ng-template>
-                    </div>
-                </div>
-            </div>
-            <div ngbAccordionItem>
-                <h2 ngbAccordionHeader>
-                    <button ngbAccordionButton>
-                        <span>&#9733; <b>Fancy</b> title &#9733;</span>
-                    </button>
-                </h2>
-                <div ngbAccordionCollapse>
-                    <div ngbAccordionBody>
-                        <ng-template>1</ng-template>
-                    </div>
-                </div>
-            </div>
-            <div ngbAccordionItem [disabled]="true">
-                <h2 ngbAccordionHeader>
-                    <button ngbAccordionButton>Disabled</button>
-                </h2>
-                <div ngbAccordionCollapse>
-                    <div ngbAccordionBody>
-                        <ng-template>2</ng-template>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-        
+    <div id="sidebar-body">
+        <div id="main-menu" class="invisible-scrollbar">
+            @for (section of sections; track section.legend) {
+                <section class="menu-section">
+                    @if (section.legend) {
+                        <legend>{{ section.legend }}</legend>
+                    }
+                    @for (child of section.children; track child.label) {
+                        <app-sidebar-menu-item [item]="child" />
+                    }
+                </section>
+            }
+        </div>
     </div>
-    
 </nav>

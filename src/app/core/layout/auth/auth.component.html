@@ -1,7 +1,16 @@
-<app-header [sidebarOpened]="sidebarOpened()"></app-header>
+<app-header 
+    [sidebarToggled]="sidebarToggled()" 
+    (toggleSidebarState)="toggleSidebarState()"
+    (setSidebarState)="setSidebarState($event)">
+</app-header>
 
-<app-sidebar></app-sidebar>
+<app-sidebar 
+    [sidebarToggled]="sidebarToggled()"
+    (toggleSidebarState)="toggleSidebarState()"
+    (setSidebarState)="setSidebarState($event)">
+</app-sidebar>
 
-<div id="main-content" [class.sidebar-open]="sidebarOpened()">
+<div id="main-content" [class.sidebar-toggled]="sidebarToggled()">
     <router-outlet></router-outlet>
+    <div id="sidebar-overlay" (click)="setSidebarState(false)"></div>
 </div>

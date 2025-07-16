@@ -16,61 +16,59 @@ export const menu: MenuSection[] = [
             {
                 label: 'Dashboard',
                 icon: 'fal fa-home',
-                link: 'dashboard',
-            }
-        ]
-    },
-    {
-        legend: 'Cadastro',
-        children: [
-            {
-                label: 'Cargos',
-                icon: 'fal fa-users',
-                link: 'roles',
-            },
-            {
-                label: 'Colaboradores',
-                icon: 'fal fa-users',
-                link: 'employees',
-            },
-            {
-                label: 'Clientes',
-                icon: 'fal fa-users',
-                link: 'customers',
+                link: '/dashboard',
             },
         ]
     },
     {
-        legend: 'Pages',
+        legend: 'Cadastros',
         children: [
             {
-                label: 'Page 1',
-                icon: 'fal fa-star',
+                label: 'Usuários',
+                icon: 'fal fa-users',
+                link: '/users',
+            },
+            {
+                label: 'Page B',
+                icon: 'fal fa-heart',
                 children: [
                     {
-                        label: 'Subpage 1',
-                        link: 'subpage1',
+                        label: 'Subpage B1',
+                        link: '/subpage-b1',
                     },
                     {
-                        label: 'Subpage 2',
-                        link: 'subpage2',
+                        label: 'Subpage B2',
+                        link: '/subpage-b2',
                     }
                 ]
             },
             {
-                label: 'Page 2',
-                icon: 'fal fa-star',
+                label: 'Page C',
+                icon: 'fal fa-users',
                 children: [
                     {
-                        label: 'Subpage 1',
-                        link: 'subpage1',
+                        label: 'Subpage C1',
+                        link: '/subpage-c1',
                     },
                     {
-                        label: 'Subpage 2',
-                        link: 'subpage2',
+                        label: 'Subpage C2',
+                        link: '/subpage-c2',
+                    },
+                    {
+                        label: 'Subpage C3',
+                        children: [
+                            {
+                                label: 'Subpage C3.1',
+                                link: '/subpage-c3-1',
+                            },
+                            {
+                                label: 'Subpage C3.2',
+                                link: '/subpage-c3-2',
+                            }
+                        ]
                     }
                 ]
-            }
+            },
         ]
-    }
+    },
 ];

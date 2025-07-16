@@ -1,0 +1,15 @@
+:root {
+    --header-height: 60px;
+    --sidebar-width: 250px;
+    --sidebar-collapsed-width: 80px;
+    --sidebar-desktop-width: 992px;
+}
+
+.page {
+    padding: 1.5rem;
+    padding-top: 1rem;
+
+    @media (max-width: 768px) {
+        padding: 1rem;
+    }
+}

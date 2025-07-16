@@ -1,0 +1,61 @@
+<div class="d-flex align-items-center gap-3">
+    <ul class="pagination m-0" role="navigation">
+        @for (link of pagination()?.links; track link) {
+            @if (link.label.endsWith("Previous")) {
+                <li
+                    class="page-item"
+                    [class.disabled]="pagination()?.current_page === 1"
+                >
+                    <a
+                        class="page-link"
+                        href="javascript:void(0);"
+                        (click)="changePage(pagination()!.current_page - 1)"
+                    >
+                        <span aria-hidden="true"
+                            ><i class="fal fa-chevron-left"></i
+                        ></span>
+                    </a>
+                </li>
+            } @else if (link.label.startsWith("Next")) {
+                <li
+                    class="page-item"
+                    [class.disabled]="
+                        pagination()?.current_page === pagination()?.last_page
+                    "
+                >
+                    <a
+                        class="page-link"
+                        href="javascript:void(0);"
+                        (click)="changePage(pagination()!.current_page + 1)"
+                    >
+                        <span aria-hidden="true"
+                            ><i class="fal fa-chevron-right"></i
+                        ></span>
+                    </a>
+                </li>
+            } @else if (link.label === "...") {
+                <li class="page-item">
+                    <span class="page-link">...</span>
+                </li>
+            } @else {
+                <li
+                    class="page-item"
+                    [class.active]="link.active"
+                    aria-current="page"
+                >
+                    <a
+                        class="page-link"
+                        href="javascript:void(0);"
+                        (click)="changePage(link.label)"
+                    >
+                        {{ link.label }}
+                    </a>
+                </li>
+            }
+        }
+    </ul>
+
+    <div class="bg-light rounded py-2 px-3 ms-auto fw-medium">
+        <span>{{ pagination()?.to }} / {{ pagination()?.total }}</span>
+    </div>
+</div>

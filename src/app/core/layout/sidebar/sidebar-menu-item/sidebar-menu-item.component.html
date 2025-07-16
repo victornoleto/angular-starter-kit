@@ -1,1 +1,43 @@
-<p>sidebar-menu-item works!</p>
+@if (item().children) {
+    <div ngbAccordion>
+        <div ngbAccordionItem [collapsed]="!isActive()">
+            <button
+                ngbAccordionButton
+                class="slide-menu-item"
+                [class.active]="isActive()"
+                [attr.data-level]="level()"
+            >
+                @if (item().icon) {
+                    <i [class]="'slide-menu-icon ' + item().icon"></i>
+                }
+                <span>{{ item().label }}</span>
+            </button>
+            <div ngbAccordionCollapse>
+                <div ngbAccordionBody>
+                    <ng-template>
+                        <div class="slide-menu-children">
+                            @for (child of item().children; track child.label) {
+                                <app-sidebar-menu-item
+                                    [item]="child"
+                                    [level]="level() + 1"
+                                />
+                            }
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+} @else {
+    <a
+        [routerLink]="item().link || '/'"
+        class="slide-menu-item"
+        [attr.data-level]="level()"
+        [class.active]="isActive()"
+    >
+        @if (item().icon) {
+            <i [class]="'slide-menu-icon ' + item().icon"></i>
+        }
+        <span>{{ item().label }}</span>
+    </a>
+}
