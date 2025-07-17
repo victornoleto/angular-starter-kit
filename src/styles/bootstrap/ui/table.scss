@@ -1,0 +1,53 @@
+.table {
+    --bs-table-bg: #fff;
+
+    th {
+        white-space: nowrap;
+    }
+}
+
+// Estilos para a diretiva de ordenação de tabela
+table[appTableSortable] {
+
+    th[data-sort] {
+        cursor: pointer;
+        user-select: none;
+        position: relative;
+        transition: background-color 0.2s ease;
+        padding-right: 1.25rem;
+
+        &:hover {
+            background-color: var(--bs-gray-100);
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-bottom: 4px solid var(--bs-gray-400);
+            opacity: 0.3;
+        }
+
+        &.sorted-asc::after {
+            border-bottom: 4px solid var(--bs-primary);
+            border-top: none;
+            opacity: 1;
+        }
+
+        &.sorted-desc::after {
+            border-top: 4px solid var(--bs-primary);
+            border-bottom: none;
+            opacity: 1;
+        }
+
+        &:hover::after {
+            opacity: 0.7;
+        }
+    }
+}

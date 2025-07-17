@@ -1,0 +1,11 @@
+.page-link {
+    font-size: 12px;
+}
+
+@media (max-width: 767px) {
+    .pagination {
+        .page-item:not(:first-child):not(:last-child):not(.active) {
+            display: none;
+        }
+    }
+}

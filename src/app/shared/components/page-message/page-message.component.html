@@ -1,0 +1,13 @@
+<div class="d-flex justify-content-center align-items-center flex-column p-5 text-center">
+
+    <span class="icon">{{ icon() }}</span>
+
+    <p class="text-center m-0 fs-5 fw-bold mt-0">{{ message () }}</p>
+
+    @if (details()) {
+        <p class="text-muted mt-1 mb-0">{{ details() }}</p>
+    }
+
+    <ng-content></ng-content>
+
+</div>

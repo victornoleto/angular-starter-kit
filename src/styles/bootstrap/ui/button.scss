@@ -1,3 +1,8 @@
+@use "../../colors.scss" as colors;
+
+.btn {
+}
+
 .btn-close {
     --bs-btn-close-bg: none;
     width: unset;
@@ -5,4 +10,16 @@
     padding: 0;
     width: 35px;
     height: 35px;
+}
+
+.btn.btn-table-button {
+    --bs-btn-padding-y: 2px;
+    --bs-btn-padding-x: 2px;
+    --bs-btn-border-width: 0;
+}
+
+@each $name, $color in colors.$base-colors {
+    .btn-#{$name}-light {
+        --bs-btn-color: var(--bs-#{$name});
+    }
 }

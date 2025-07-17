@@ -1,21 +1,40 @@
 <div id="users-index-page" class="page">
-    
-    <div class="d-flex flex-column mb-3">
-        <h3 class="fw-bold mb-1">Usuários</h3>
-        <p class="text-muted m-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, et!</p>
+    <div class="d-flex align-items-end mb-3">
+        <div class="d-flex flex-column">
+            <h3 class="fw-bold mb-1">Usuários</h3>
+            <p class="text-muted m-0">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae,
+                et!
+            </p>
+        </div>
+
+        <div class="d-flex gap-3 ms-auto">
+            <a [routerLink]="['/users/create']" class="btn btn-primary"
+                >Novo Usuário</a
+            >
+        </div>
     </div>
 
     <div class="card">
         <div class="card-body">
-            <pre>Current page: {{ currentPage() }}</pre>
-            <pre>Current per page: {{ currentPerPage() }}</pre>
             <app-users-filters
-                (onChange)="onFiltersChange()"></app-users-filters>
-            <app-users-table
-                [users]="users()"
-                (pageChange)="onPageChange($event)"
-                (perPageChange)="onPerPageChange($event)"></app-users-table>
+                (onChange)="onFiltersChange()"
+            ></app-users-filters>
+            @if (error()) {
+                <app-page-message
+                    icon="🚨"
+                    message="Não foi possível carregar os usuários"
+                    [details]="error() ?? ''"
+                ></app-page-message>
+            } @else {
+                <app-users-table
+                    [users]="users()"
+                    [isLoading]="isLoading()"
+                    (pageChange)="onPageChange($event)"
+                    (perPageChange)="onPerPageChange($event)"
+                    (sortChange)="onSortChange($event)"
+                ></app-users-table>
+            }
         </div>
     </div>
-
 </div>

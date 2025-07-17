@@ -18,6 +18,14 @@ export const routes: Routes = [
                 ),
                 title: 'Dashboard',
             },
+            {
+                path: 'ui-components',
+                loadComponent: () =>
+                    import('./pages/ui-components/ui-components.component').then(
+                    (c) => c.UiComponentsComponent,
+                ),
+                title: 'UI Components',
+            }
         ],
     }
 ];

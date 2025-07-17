@@ -2,13 +2,19 @@
 
 O que fazer amanhã 17 de julho
 
-- [ ] sort by/direction na tabela, criar diretiva
+- [x] sort by/direction na tabela, criar diretiva
+- [x] NG0956: The configured tracking expression (track by identity) caused re-creation of the entire collection of size 13. This is an expensive operation requiring destruction and subsequent creation of DOM nodes, directives, components etc. Please review the "track expression" and make sure that it uniquely identifies items in a collection. Find more at 
+- [x] fazer com que a pesquisa não seja enviada toda hora (por exemplo, ficar escrevendo no campo search), tem que ter um timeout
+- [x] componente para tabela vázia
+- [x] loading ao carregar registros
+- [x] componente para erro ao carregar tabela
 - [ ] botões de ação
-- [ ] NG0956: The configured tracking expression (track by identity) caused re-creation of the entire collection of size 13. This is an expensive operation requiring destruction and subsequent creation of DOM nodes, directives, components etc. Please review the "track expression" and make sure that it uniquely identifies items in a collection. Find more at 
-- [ ] fazer com que a pesquisa não seja enviada toda hora (por exemplo, ficar escrevendo no campo search), tem que ter um timeout
-- [ ] ajustar cores do sistema, criar cores light e shade
-- [ ] responsividade da paginação
+- [x] ajustar cores do sistema, criar cores light e shade
+- [x] responsividade da paginação
+- [ ] ao mudar filtros alterar a url
 - [ ] perguntar pra IA o que dá pra melhorar no fluxo da tela index
+- [ ] tentar exibir o dd do backend dentro de um modal
+- [ ] fazer diretiva, if, para lidar com renderização de componentes com base na autorização do usuário
 
 ## Estruturação inicial
 

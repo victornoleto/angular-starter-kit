@@ -1,6 +1,6 @@
-<div class="d-flex align-items-center gap-3">
+<div class="d-flex flex-column justify-content-center align-items-center gap-2">
     <ul class="pagination m-0" role="navigation">
-        @for (link of pagination()?.links; track link) {
+        @for (link of pagination()?.links; track link.label + link.url) {
             @if (link.label.endsWith("Previous")) {
                 <li
                     class="page-item"
@@ -55,7 +55,9 @@
         }
     </ul>
 
-    <div class="bg-light rounded py-2 px-3 ms-auto fw-medium">
-        <span>{{ pagination()?.to }} / {{ pagination()?.total }}</span>
-    </div>
+    <!-- <div class="bg-gray rounded py-1 px-2 ms-auto fw-medium">
+        <small class="fw-medium opacity-75">{{ pagination()?.to }} / {{ pagination()?.total }}</small>
+    </div> -->
+
+    <p class="text-muted m-0">Exibindo {{ pagination()?.from }} - {{ pagination()?.to }} de {{ pagination()?.total }}</p>
 </div>

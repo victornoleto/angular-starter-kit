@@ -1,10 +1,13 @@
+// Importa o mapa de cores
+@use "../colors.scss" as colors;
+
 @use "bootstrap/scss/bootstrap" with (
     // typography
     $font-family-base: "Geist",
     $font-size-base: 0.875rem,
 
     // colors
-    //$primary: purple
+    $theme-colors: colors.$colors
 );
 
 // components/ui
@@ -13,6 +16,7 @@
 @use "./ui/form.scss";
 @use "./ui/button.scss";
 @use "./ui/alert.scss";
+@use "./ui/table.scss";
 
 :root {
     --bs-body-color: #333335;

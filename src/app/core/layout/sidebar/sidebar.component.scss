@@ -16,7 +16,6 @@
     #sidebar-header {
         height: var(--header-height);
         width: var(--sidebar-width);
-        //position: fixed;
         display: flex;
         z-index: 9;
         align-items: center;
@@ -63,7 +62,6 @@
     }
 
     .slide-menu-item {
-        //margin-block: .25rem; // distância entre um item e outro
         padding: .75rem;
         position: relative;
         display: flex;
@@ -145,6 +143,7 @@
                 // accordion fechado
                 &.collapsed::after {
                     content: "\f054";
+                    margin-right: 2px; // corrigir alinhamento
                 }
             }
 

@@ -18,6 +18,11 @@ export const menu: MenuSection[] = [
                 icon: 'fal fa-home',
                 link: '/dashboard',
             },
+            {
+                label: 'UI Components',
+                icon: 'fal fa-code',
+                link: '/ui-components',
+            },
         ]
     },
     {
