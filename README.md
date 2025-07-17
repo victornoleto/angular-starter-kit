@@ -9,6 +9,9 @@ O que fazer amanhã 17 de julho
 - [x] loading ao carregar registros
 - [x] componente para erro ao carregar tabela
 - [ ] botões de ação
+    - [x] editar
+    - [x] remover
+    - [ ] escrever regras de negócios para remover registro
 - [x] ajustar cores do sistema, criar cores light e shade
 - [x] responsividade da paginação
 - [ ] ao mudar filtros alterar a url

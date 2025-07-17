@@ -1,31 +1,38 @@
-<button type="button" class="btn btn-table-button text-danger-hover" (click)="onClick(content)">
+<button
+    #deleteButton
+    type="button"
+    class="btn btn-table-button text-danger-hover"
+    (click)="onClick(content)"
+>
     <i class="fal fa-trash-alt"></i>
 </button>
 
 <ng-template #content let-modal>
-    <div class="modal-header">
-        <h6 class="card-title fw-semibold mb-2">Login</h6>
-        <p class="card-subtitle mb-0 text-muted">Lorem ipsum dolor sit amet</p>
+    <div class="modal-header d-flex flex-column align-items-start">
+        <h6 id="modal-basic-title" class="card-title fw-semibold mb-1">
+            Atenção!
+        </h6>
+        <p class="card-subtitle mb-0 text-muted">Lorem ipsum dolor sit amet.</p>
     </div>
-	<div class="modal-body">
-		<form>
-			<div class="mb-3">
-				<label for="dateOfBirth">Date of birth</label>
-				<div class="input-group">
-					<input
-						id="dateOfBirth"
-						class="form-control"
-						placeholder="yyyy-mm-dd"
-						name="dp"
-						ngbDatepicker
-						#dp="ngbDatepicker"
-					/>
-					<button class="btn btn-outline-secondary bi bi-calendar3" (click)="dp.toggle()" type="button"></button>
-				</div>
-			</div>
-		</form>
-	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-outline-secondary" (click)="modal.close('Save click')">Save</button>
-	</div>
+    <div class="modal-body">
+        <p class="mb-0">Você está prestes a <b>excluir este registro.</b></p>
+        <p class="mb-0">Tem certeza de que deseja continuar?</p>
+    </div>
+    <div class="modal-footer d-flex align-items-center gap-2">
+        <button
+            type="button"
+            class="btn btn-light"
+            aria-label="Close"
+            (click)="modal.dismiss()"
+        >
+            Cancelar
+        </button>
+        <button
+            type="button"
+            class="btn btn-danger"
+            (click)="onConfirmed(modal)"
+        >
+            Prosseguir
+        </button>
+    </div>
 </ng-template>

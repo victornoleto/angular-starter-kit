@@ -99,4 +99,8 @@ export class UsersIndexComponent implements OnInit {
         this.currentSort.set(sort);
         this.refresh();
     }
+
+    onDeleteConfirmed(user: User): void {
+        console.debug('vai remover o usuário...', user);
+    }
 }
