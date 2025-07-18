@@ -2,6 +2,7 @@ import {
     Component,
     OnInit,
     signal,
+    effect,
     ChangeDetectionStrategy,
     viewChild,
     inject,
@@ -15,10 +16,11 @@ import {
 } from './components/users-filters/users-filters.component';
 import { UsersTableComponent } from './components/users-table/users-table.component';
 import { TableSort } from '../../../../shared/directives/table-sortable.directive';
-import { RouterLink } from '@angular/router';
+import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { getErrorMessage } from '../../../../shared/utils/error.utils';
 import { PageMessageComponent } from '../../../../shared/components/page-message/page-message.component';
 import { DialogService } from '../../../../shared/services/dialog.service';
+import { BaseIndexService } from '../../../../shared/services/base-index.service';
 
 @Component({
     selector: 'app-users-index',
@@ -30,76 +32,74 @@ import { DialogService } from '../../../../shared/services/dialog.service';
         UsersTableComponent,
         PageMessageComponent,
     ],
+    providers: [BaseIndexService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsersIndexComponent implements OnInit {
     private readonly usersService = inject(UsersService);
     private readonly dialogService = inject(DialogService);
+    protected readonly pageState = inject(BaseIndexService<UsersFilters>);
 
-    public users = signal<LengthAwarePaginator<User> | null>(null);
-    public isLoading = signal<boolean>(false);
-    public currentPerPage = signal<number>(10);
-    public currentPage = signal<number>(1);
-    public currentSort = signal<TableSort | null>(null);
-    public error = signal<string | null>(null);
+    protected readonly users = signal<LengthAwarePaginator<User> | null>(null);
+    protected readonly filters = signal<UsersFilters>({});
 
-    // Referência para os componentes filhos
-    private readonly usersFiltersComponent = viewChild.required(
-        UsersFiltersComponent,
-    );
+    private readonly usersFiltersComponent = viewChild.required(UsersFiltersComponent);
 
-    ngOnInit(): void {
-        this.refresh();
-    }
-
-    refresh() {
-        let filters = (this.usersFiltersComponent()?.form.value ||
-            {}) as UsersFilters;
-
-        filters.page = this.currentPage();
-        filters.per_page = this.currentPerPage();
-
-        if (this.currentSort()) {
-            filters.sort_by = this.currentSort()?.column;
-            filters.sort_direction = this.currentSort()?.direction;
-        }
-
-        this.usersService.get(filters).subscribe({
-            next: (response) => {
-                this.error.set(null);
-                this.users.set(response);
-            },
-            error: (error) => {
-                this.error.set(getErrorMessage(error));
-            },
+    constructor() {
+        // Effect que dispara a busca automaticamente quando os parâmetros mudam
+        effect(() => {
+            //const params = this.pageState.searchParams();
+            //this.fetchUsers(params);
         });
     }
 
+    ngOnInit(): void {
+        console.debug('UsersIndexComponent initialized');
+        //this.pageState.initializeFromQueryParams();
+    }
+
+    private fetchUsers(params: UsersFilters): void {
+
+        console.debug('users-index@fetchUsers', params);
+
+        this.pageState.setLoading(true);
+        this.pageState.setError(null);
+
+        // Atualizar URL com os parâmetros atuais
+        //this.pageState.updateUrlParams(params);
+
+        /* this.usersService.get(params).subscribe({
+            next: (response) => {
+                this.users.set(response);
+                this.pageState.setLoading(false);
+            },
+            error: (error) => {
+                this.pageState.setError(getErrorMessage(error));
+                this.pageState.setLoading(false);
+            },
+        }); */
+    }
+
+    // Event handlers
     onPerPageChange(perPage: number): void {
-        this.currentPage.set(1);
-        this.currentPerPage.set(perPage);
-        this.refresh();
+        this.pageState.setPerPage(perPage);
     }
 
     onPageChange(page: number): void {
-        this.currentPage.set(page);
-        this.refresh();
-    }
-
-    onFiltersChange(): void {
-        this.currentPage.set(1);
-        this.refresh();
+        this.pageState.setPage(page);
     }
 
     onSortChange(sort: TableSort): void {
-        this.currentSort.set(sort);
-        this.refresh();
+        this.pageState.setSort(sort);
     }
 
     onDeleteConfirmed(user: User): void {
         this.usersService.delete(user.id).subscribe({
             next: () => {
-                this.refresh();
+                // O effect vai automaticamente recarregar os dados
+                // Mas precisamos forçar um refresh mantendo os parâmetros atuais
+                const currentParams = this.pageState.searchParams();
+                this.fetchUsers(currentParams);
             },
             error: (error) => {
                 this.dialogService.open({

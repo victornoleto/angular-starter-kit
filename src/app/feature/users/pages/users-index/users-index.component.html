@@ -17,19 +17,17 @@
 
     <div class="card">
         <div class="card-body">
-            <app-users-filters
-                (onChange)="onFiltersChange()"
-            ></app-users-filters>
-            @if (error()) {
+            <app-users-filters></app-users-filters>
+            @if (pageState.error()) {
                 <app-page-message
                     icon="🚨"
                     message="Não foi possível carregar os usuários"
-                    [details]="error() ?? ''"
+                    [details]="pageState.error() ?? ''"
                 ></app-page-message>
             } @else {
                 <app-users-table
                     [users]="users()"
-                    [isLoading]="isLoading()"
+                    [isLoading]="pageState.isLoading()"
                     (pageChange)="onPageChange($event)"
                     (perPageChange)="onPerPageChange($event)"
                     (sortChange)="onSortChange($event)"

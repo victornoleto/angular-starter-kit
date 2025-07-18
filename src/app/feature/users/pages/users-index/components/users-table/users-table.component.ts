@@ -1,4 +1,11 @@
-import { Component, computed, input, output } from '@angular/core';
+import { 
+    Component, 
+    computed, 
+    input, 
+    OnInit, 
+    output, 
+    ChangeDetectionStrategy 
+} from '@angular/core';
 import { LengthAwarePaginator } from '../../../../../../shared/models/length-aware-paginator';
 import { User } from '../../../../../../core/auth/models/user.model';
 import { PerPageComponent } from '../../../../../../shared/components/form/per-page/per-page.component';
@@ -27,17 +34,45 @@ import { TableButtonDeleteComponent } from '../../../../../../shared/components/
     ],
     templateUrl: './users-table.component.html',
     styleUrl: './users-table.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UsersTableComponent {
+export class UsersTableComponent implements OnInit {
+    // Input signals
     readonly users = input.required<LengthAwarePaginator<User> | null>();
     readonly isLoading = input<boolean>(false);
 
-    // Outputs para comunicação com o componente pai
+    // Output signals para comunicação com o componente pai
     readonly pageChange = output<number>();
     readonly perPageChange = output<number>();
     readonly sortChange = output<TableSort>();
     readonly deleteConfirmed = output<User>();
 
-    // Computed signal para facilitar o acesso aos dados
+    // Computed signals para facilitar o acesso aos dados
     protected readonly usersData = computed(() => this.users()?.data || []);
+    protected readonly hasUsers = computed(() => this.usersData().length > 0);
+    protected readonly totalUsers = computed(() => this.users()?.total || 0);
+    protected readonly currentPage = computed(() => this.users()?.current_page || 1);
+    protected readonly lastPage = computed(() => this.users()?.last_page || 1);
+    protected readonly perPage = computed(() => this.users()?.per_page || 10);
+
+    ngOnInit(): void {
+        console.debug('UsersTableComponent initialized');
+    }
+
+    // Event handlers
+    onPageChanged(page: number): void {
+        this.pageChange.emit(page);
+    }
+
+    onPerPageChanged(perPage: number): void {
+        this.perPageChange.emit(perPage);
+    }
+
+    onSortChanged(sort: TableSort): void {
+        this.sortChange.emit(sort);
+    }
+
+    onDeleteUser(user: User): void {
+        this.deleteConfirmed.emit(user);
+    }
 }

@@ -1,13 +1,13 @@
 <app-per-page
-    [value]="users()?.per_page"
-    (onChange)="perPageChange.emit($event)"
+    [value]="perPage()"
+    (onChange)="onPerPageChanged($event)"
 />
 
 <div class="table-responsive">
     <table
         class="table table-bordered"
         appTableSortable
-        (sortChange)="sortChange.emit($event)"
+        (sortChange)="onSortChanged($event)"
     >
         <thead>
             <tr>
@@ -34,7 +34,7 @@
                                     [url]="['users', user.id, 'edit']"
                                 ></app-table-button-edit>
                                 <app-table-button-delete
-                                    (onDelete)="deleteConfirmed.emit(user)"
+                                    (onDelete)="onDeleteUser(user)"
                                 ></app-table-button-delete>
                             </app-table-buttons>
                         </td>
@@ -66,9 +66,9 @@
     </table>
 </div>
 
-@if (users() && users()!.total > 0) {
+@if (users() && totalUsers() > 0) {
     <app-pagination
         [pagination]="users()"
-        (onChange)="pageChange.emit($event)"
+        (onChange)="onPageChanged($event)"
     />
 }
