@@ -46,10 +46,8 @@ export class TableButtonDeleteComponent {
             // Melhora o gerenciamento de foco para evitar warnings de acessibilidade
             modalRef.result
                 .then(
-                    (result: any) => {
-                    },
-                    (reason: any) => {
-                    },
+                    (result: any) => {},
+                    (reason: any) => {},
                 )
                 .finally(() => {});
         } else {

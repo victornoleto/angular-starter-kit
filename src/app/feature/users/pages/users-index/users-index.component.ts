@@ -1,15 +1,24 @@
-import { Component, OnInit, signal, computed, ChangeDetectionStrategy, effect, viewChild } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    signal,
+    ChangeDetectionStrategy,
+    viewChild,
+    inject,
+} from '@angular/core';
 import { UsersService } from '../../users.service';
 import { LengthAwarePaginator } from '../../../../shared/models/length-aware-paginator';
 import { User } from '../../../../core/auth/models/user.model';
-import { UsersFilters, UsersFiltersComponent } from './components/users-filters/users-filters.component';
+import {
+    UsersFilters,
+    UsersFiltersComponent,
+} from './components/users-filters/users-filters.component';
 import { UsersTableComponent } from './components/users-table/users-table.component';
 import { TableSort } from '../../../../shared/directives/table-sortable.directive';
-import { JsonPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { LoadingDirective } from '../../../../shared/directives';
 import { getErrorMessage } from '../../../../shared/utils/error.utils';
 import { PageMessageComponent } from '../../../../shared/components/page-message/page-message.component';
+import { DialogService } from '../../../../shared/services/dialog.service';
 
 @Component({
     selector: 'app-users-index',
@@ -19,37 +28,33 @@ import { PageMessageComponent } from '../../../../shared/components/page-message
         RouterLink,
         UsersFiltersComponent,
         UsersTableComponent,
-        JsonPipe,
-        LoadingDirective,
         PageMessageComponent,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsersIndexComponent implements OnInit {
-    
+    private readonly usersService = inject(UsersService);
+    private readonly dialogService = inject(DialogService);
+
     public users = signal<LengthAwarePaginator<User> | null>(null);
     public isLoading = signal<boolean>(false);
     public currentPerPage = signal<number>(10);
     public currentPage = signal<number>(1);
-    public currentSort = signal<TableSort|null>(null);
-
+    public currentSort = signal<TableSort | null>(null);
     public error = signal<string | null>(null);
-    
-    // Referência para os componentes filhos
-    private readonly usersFiltersComponent = viewChild.required(UsersFiltersComponent);
 
-    public constructor(
-        private readonly usersService: UsersService
-    ) {
-    }
-    
+    // Referência para os componentes filhos
+    private readonly usersFiltersComponent = viewChild.required(
+        UsersFiltersComponent,
+    );
+
     ngOnInit(): void {
         this.refresh();
     }
-    
-    refresh() {
 
-        let filters = (this.usersFiltersComponent()?.form.value || {}) as UsersFilters;
+    refresh() {
+        let filters = (this.usersFiltersComponent()?.form.value ||
+            {}) as UsersFilters;
 
         filters.page = this.currentPage();
         filters.per_page = this.currentPerPage();
@@ -59,37 +64,28 @@ export class UsersIndexComponent implements OnInit {
             filters.sort_direction = this.currentSort()?.direction;
         }
 
-        this.isLoading.set(true);
-
-        this.usersService
-            .get(filters)
-            .subscribe({
-                next: (response) => {
-                    console.log('Users fetched successfully:', response);
-                    this.error.set(null);
-                    this.users.set(response);
-                },
-                error: (error) => {
-                    this.error.set(getErrorMessage(error));
-                    console.error('Error fetching users:', this.error());
-                }
-            })
-            .add(() => {
-                this.isLoading.set(false);
-            });
+        this.usersService.get(filters).subscribe({
+            next: (response) => {
+                this.error.set(null);
+                this.users.set(response);
+            },
+            error: (error) => {
+                this.error.set(getErrorMessage(error));
+            },
+        });
     }
-    
+
     onPerPageChange(perPage: number): void {
         this.currentPage.set(1);
         this.currentPerPage.set(perPage);
         this.refresh();
     }
-    
+
     onPageChange(page: number): void {
         this.currentPage.set(page);
         this.refresh();
     }
-    
+
     onFiltersChange(): void {
         this.currentPage.set(1);
         this.refresh();
@@ -101,6 +97,24 @@ export class UsersIndexComponent implements OnInit {
     }
 
     onDeleteConfirmed(user: User): void {
-        console.debug('vai remover o usuário...', user);
+        this.usersService.delete(user.id).subscribe({
+            next: () => {
+                this.refresh();
+            },
+            error: (error) => {
+                this.dialogService.open({
+                    title: '🔴 Atenção!',
+                    message: 'Não foi possível remover o usuário.',
+                    details: getErrorMessage(error),
+                    actions: [
+                        {
+                            text: 'Tentar novamente',
+                            className: 'btn-primary',
+                            handler: () => this.onDeleteConfirmed(user),
+                        },
+                    ],
+                });
+            },
+        });
     }
 }

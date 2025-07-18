@@ -20,7 +20,7 @@
         z-index: 9;
         align-items: center;
         justify-content: center;
-        padding: .813rem 1.25rem;
+        padding: 0.813rem 1.25rem;
         border-inline-end: 1px solid var(--sidebar-border-color);
         border-block-end: 1px solid var(--sidebar-border-color);
         transition: all 50ms ease;
@@ -41,20 +41,19 @@
             width: 100%;
             height: 100%;
             overflow-y: auto;
-            padding: .75rem .75rem 80px;
+            padding: 0.75rem 0.75rem 80px;
         }
 
         .menu-section {
-            
             legend {
                 color: #a3aed1;
-                font-size: .6rem;
+                font-size: 0.6rem;
                 font-weight: 600;
-                letter-spacing: .065rem;
+                letter-spacing: 0.065rem;
                 text-transform: uppercase;
-                padding: .75rem .95rem;
+                padding: 0.75rem 0.95rem;
                 white-space: nowrap;
-                opacity: .5;
+                opacity: 0.5;
                 position: relative;
                 margin: 0;
             }
@@ -62,32 +61,32 @@
     }
 
     .slide-menu-item {
-        padding: .75rem;
+        padding: 0.75rem;
         position: relative;
         display: flex;
         align-items: center;
         text-decoration: none;
         color: var(--sidebar-menu-color);
         font-weight: 500;
-        border-radius: .5rem;
+        border-radius: 0.5rem;
         background: none;
 
         &[data-level="0"] {
-            margin: .25rem 0;
+            margin: 0.25rem 0;
         }
 
         .slide-menu-icon {
-            margin-inline-end: .625rem;
+            margin-inline-end: 0.625rem;
             width: 1.15rem;
             height: 1.15rem;
             font-size: 1rem;
             text-align: center;
-            border-radius: .5rem;
+            border-radius: 0.5rem;
         }
 
         &:hover,
         &.active {
-            background-color: rgba(255,255,255,.05);
+            background-color: rgba(255, 255, 255, 0.05);
             color: #fff;
         }
     }
@@ -95,10 +94,10 @@
     // filtros de um slide-menu-item
     .slide-menu-children {
         padding-left: 1rem;
-        
+
         .slide-menu-item {
-            padding: .5rem;
-            padding-right: .75rem; // isso mantém o mesmo alinhamento dos "chevron"
+            padding: 0.5rem;
+            padding-right: 0.75rem; // isso mantém o mesmo alinhamento dos "chevron"
             font-size: 13px;
 
             span {
@@ -124,7 +123,6 @@
         --bs-accordion-bg: none;
         --bs-accordion-border-width: 0;
         .accordion-item {
-
             .accordion-button {
                 box-shadow: none;
                 position: relative;
@@ -139,7 +137,7 @@
                     content: "\f078";
                     font-size: 12px !important;
                 }
-                
+
                 // accordion fechado
                 &.collapsed::after {
                     content: "\f054";
@@ -157,10 +155,8 @@
 
     // telas maiores
     @media (min-width: 992px) {
-
         // sidebar aberta completamente
         &:not(.sidebar-toggled) {
-
             #sidebar-header .header-logo .mobile-logo {
                 display: none;
             }
@@ -168,10 +164,9 @@
 
         // sidebar aberta apenas ícones
         &.sidebar-toggled {
-
             &:not(:hover) {
-
-                &, #sidebar-header {
+                &,
+                #sidebar-header {
                     width: var(--sidebar-collapsed-width);
                 }
 
@@ -186,8 +181,9 @@
 
                 .slide-menu-item {
                     justify-content: center;
-                    
-                    span, &::after {
+
+                    span,
+                    &::after {
                         display: none;
                     }
 
@@ -205,7 +201,7 @@
 
                     // substituir label por ícone
                     &::before {
-                        color: rgba(255, 255, 255, .5);
+                        color: rgba(255, 255, 255, 0.5);
                         font-family: "Font Awesome 6 Pro";
                         font-weight: 300;
                         content: "\f111";
@@ -229,7 +225,6 @@
     }
 
     @media (max-width: 991px) {
-
         &.sidebar-toggled {
         }
 

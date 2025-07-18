@@ -34,10 +34,10 @@ export class SidebarMenuItemComponent {
         const route = this.currentRoute();
         const itemLink = this.item().link;
         const children = this.item().children || [];
-        
+
         const isCurrentRoute = route === itemLink;
         const hasActiveChild = this.checkChildren(route, children);
-        
+
         return isCurrentRoute || hasActiveChild;
     });
 
@@ -45,8 +45,11 @@ export class SidebarMenuItemComponent {
         // Escuta mudanças de navegação e atualiza o signal
         this.router.events
             .pipe(
-                filter((event): event is NavigationEnd => event instanceof NavigationEnd),
-                takeUntilDestroyed()
+                filter(
+                    (event): event is NavigationEnd =>
+                        event instanceof NavigationEnd,
+                ),
+                takeUntilDestroyed(),
             )
             .subscribe((event: NavigationEnd) => {
                 this.currentRoute.set(event.url);

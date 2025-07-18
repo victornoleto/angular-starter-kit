@@ -1,6 +1,12 @@
 <div class="d-flex align-items-center mb-3 gap-2">
     <span>Exibindo</span>
-    <select name="" id="" class="form-select" [value]="value()" (change)="handleChange($event)">
+    <select
+        name=""
+        id=""
+        class="form-select"
+        [value]="value()"
+        (change)="handleChange($event)"
+    >
         @for (option of options(); track option) {
             <option [value]="option">{{ option }}</option>
         }

@@ -7,25 +7,25 @@ export const routes: Routes = [
         canActivate: [authGuard],
         loadComponent: () =>
             import('../../core/layout/auth/auth.component').then(
-            (c) => c.AuthComponent,
-        ),
+                (c) => c.AuthComponent,
+            ),
         children: [
             {
                 path: 'dashboard',
                 loadComponent: () =>
                     import('./pages/dashboard/dashboard').then(
-                    (c) => c.Dashboard,
-                ),
+                        (c) => c.Dashboard,
+                    ),
                 title: 'Dashboard',
             },
             {
                 path: 'ui-components',
                 loadComponent: () =>
-                    import('./pages/ui-components/ui-components.component').then(
-                    (c) => c.UiComponentsComponent,
-                ),
+                    import(
+                        './pages/ui-components/ui-components.component'
+                    ).then((c) => c.UiComponentsComponent),
                 title: 'UI Components',
-            }
+            },
         ],
-    }
+    },
 ];

@@ -1,9 +1,9 @@
 // Importa o mapa de cores
-@use '../colors.scss' as colors;
+@use "../colors.scss" as colors;
 
-@use 'bootstrap/scss/bootstrap' with (
+@use "bootstrap/scss/bootstrap" with (
     // typography
-    $font-family-base: 'Geist',
+    $font-family-base: "Geist",
     $font-size-base: 0.875rem,
 
     // colors
@@ -11,15 +11,15 @@
 );
 
 // components/ui
-@use './ui/card.scss';
-@use './ui/modal.scss';
-@use './ui/typography.scss';
-@use './ui/form.scss';
-@use './ui/button.scss';
-@use './ui/alert.scss';
-@use './ui/table.scss';
+@use "./ui/card.scss";
+@use "./ui/modal.scss";
+@use "./ui/typography.scss";
+@use "./ui/form.scss";
+@use "./ui/button.scss";
+@use "./ui/alert.scss";
+@use "./ui/table.scss";
 
 :root {
     --bs-body-color: #333335;
-    --bs-body-bg: #F6F7F8;
+    --bs-body-bg: #f6f7f8;
 }

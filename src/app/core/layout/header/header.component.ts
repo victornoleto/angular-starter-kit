@@ -1,16 +1,20 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    output,
+} from '@angular/core';
 
 @Component({
-  selector: 'app-header',
-  imports: [],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-header',
+    imports: [],
+    templateUrl: './header.component.html',
+    styleUrl: './header.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
-
     public sidebarToggled = input<boolean>(false);
-    
+
     public toggleSidebarState = output<void>();
     public setSidebarState = output<boolean>();
 

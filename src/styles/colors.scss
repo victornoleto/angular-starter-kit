@@ -1,29 +1,13 @@
-$base-colors: (
-    "primary":    #0d6efd,
-    "secondary":  #6c757d,
-    "success":    #198754,
-    "info":       #0dcaf0,
-    "warning":    #ffc107,
-    "danger":     #dc3545,
-    "light":      #fff,
-    "dark":       #212529,
+$colors: (
+    "primary": #0d6efd,
+    "secondary": #6c757d,
+    "success": #198754,
+    "info": #0dcaf0,
+    "warning": #ffc107,
+    "danger": #dc3545,
+    "light": #fff,
+    "dark": #212529,
+
+    // light variants
+    "primary-light": #6ea8fe,
 );
-
-// Função para gerar o mapa de cores com variações light
-@function generate-colors($base-colors) {
-    $colors: ();
-    
-    @each $name, $color in $base-colors {
-        // Adiciona a cor base
-        $colors: map-merge($colors, ($name: $color));
-        
-        // Adiciona a variação light
-        $light-amount: if($name == "light", 5%, 35%);
-        $colors: map-merge($colors, (#{$name}-light: lighten($color, $light-amount)));
-    }
-    
-    @return $colors;
-}
-
-// Mapa final com todas as cores
-$colors: generate-colors($base-colors);

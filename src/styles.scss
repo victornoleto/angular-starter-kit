@@ -1,15 +1,15 @@
 // fonts
-@use 'styles/fonts/geist.css';
-@use 'styles/fonts/fontawesome.css';
+@use "styles/fonts/geist.css";
+@use "styles/fonts/fontawesome.css";
 
 // bootstrap
-@use 'styles/bootstrap/bootstrap.scss';
+@use "styles/bootstrap/bootstrap.scss";
 
 // components
-@use 'styles/components/scrollbar.scss';
+@use "styles/components/scrollbar.scss";
 
 // main layout
-@use 'styles/layout.scss';
+@use "styles/layout.scss";
 
 html,
 body {

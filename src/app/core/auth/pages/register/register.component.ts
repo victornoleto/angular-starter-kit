@@ -2,7 +2,11 @@ import { RegisterRequest } from './../../models/auth.model';
 import { Component, ElementRef, signal, ViewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { FormValidationDirective, InputPasswordDirective, LoadingDirective } from '../../../../shared/directives';
+import {
+    FormValidationDirective,
+    InputPasswordDirective,
+    LoadingDirective,
+} from '../../../../shared/directives';
 import { equalsToValidator } from '../../../../shared/validators';
 import { AlertService } from '../../../../shared/services/alert.service';
 import { AuthService } from '../../services/auth.service';
@@ -21,7 +25,6 @@ import { getErrorMessage } from '../../../../shared/utils/error.utils';
     styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
-
     @ViewChild('alertContainer') alertContainerRef!: ElementRef<HTMLDivElement>;
 
     private readonly fb = new FormBuilder();
@@ -46,7 +49,6 @@ export class RegisterComponent {
     ) {}
 
     submit(): void {
-
         this.formSubmitted = true;
 
         if (this.form.invalid) {
@@ -61,7 +63,7 @@ export class RegisterComponent {
             password: this.form.value.password || '',
             password_confirmation: this.form.value.password_confirmation || '',
         };
-        
+
         this.authService
             .register(data)
             .subscribe({

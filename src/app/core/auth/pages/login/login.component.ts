@@ -23,7 +23,6 @@ import { getErrorMessage } from '../../../../shared/utils/error.utils';
     styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-
     @ViewChild('alertContainer') alertContainerRef!: ElementRef<HTMLDivElement>;
 
     private readonly fb = new FormBuilder();

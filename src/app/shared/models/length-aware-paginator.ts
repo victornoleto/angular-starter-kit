@@ -2,7 +2,7 @@ export interface PaginatorLink {
     url: string | null;
     label: string;
     active: boolean;
-};
+}
 
 export interface LengthAwarePaginator<T> {
     current_page: number;
@@ -18,4 +18,4 @@ export interface LengthAwarePaginator<T> {
     prev_page_url: string | null;
     to: number;
     total: number;
-};
+}

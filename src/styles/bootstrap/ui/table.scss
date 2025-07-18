@@ -8,7 +8,6 @@
 
 // Estilos para a diretiva de ordenação de tabela
 table[appTableSortable] {
-
     th[data-sort] {
         cursor: pointer;
         user-select: none;
@@ -21,7 +20,7 @@ table[appTableSortable] {
         }
 
         &::after {
-            content: '';
+            content: "";
             position: absolute;
             right: 8px;
             top: 50%;

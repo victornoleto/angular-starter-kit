@@ -7,33 +7,33 @@ export const routes: Routes = [
         canActivate: [authGuard],
         loadComponent: () =>
             import('../../core/layout/auth/auth.component').then(
-            (c) => c.AuthComponent,
-        ),
+                (c) => c.AuthComponent,
+            ),
         children: [
             {
                 path: '',
                 title: 'Usuários',
                 loadComponent: () =>
                     import('./pages/users-index/users-index.component').then(
-                    (c) => c.UsersIndexComponent,
-                ),
+                        (c) => c.UsersIndexComponent,
+                    ),
             },
             {
                 path: 'create',
                 title: 'Criar Usuário',
                 loadComponent: () =>
                     import('./pages/users-form/users-form.component').then(
-                    (c) => c.UsersFormComponent,
-                ),
+                        (c) => c.UsersFormComponent,
+                    ),
             },
             {
                 path: 'edit/:id',
                 title: 'Editar Usuário',
                 loadComponent: () =>
                     import('./pages/users-form/users-form.component').then(
-                    (c) => c.UsersFormComponent,
-                ),
-            }
+                        (c) => c.UsersFormComponent,
+                    ),
+            },
         ],
-    }
+    },
 ];

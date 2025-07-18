@@ -1,5 +1,4 @@
 #main-content {
-
     #sidebar-overlay {
         display: none;
         position: fixed;
@@ -13,7 +12,6 @@
 
     // telas maiores
     @media (min-width: 992px) {
-        
         // sidebar aberta completamente
         &:not(.sidebar-toggled) {
             margin-inline-start: var(--sidebar-width);

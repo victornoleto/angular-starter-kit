@@ -18,7 +18,7 @@ export class AuthService {
     login(data: LoginRequest): Observable<User> {
         return this.http.post<User>(`${env.url}/api/login`, data).pipe(
             tap((user: User) => {
-                console.debug('[AuthService] User logged in', {user});
+                console.debug('[AuthService] User logged in', { user });
                 this.user.set(user);
                 this.authState.set(true);
             }),
@@ -35,10 +35,10 @@ export class AuthService {
         );
     }
 
-    register(data: RegisterRequest): Observable<any> {
+    register(data: RegisterRequest): Observable<User> {
         return this.http.post<User>(`${env.url}/api/register`, data).pipe(
             tap((user: User) => {
-                console.debug('[AuthService] User registered', {user});
+                console.debug('[AuthService] User registered', { user });
                 this.user.set(user);
                 this.authState.set(true);
             }),
@@ -48,7 +48,7 @@ export class AuthService {
     getUser(): Observable<User> {
         return this.http.get<User>(`${env.url}/api/user`).pipe(
             tap((user: User) => {
-                console.debug('[AuthService] User updated', {user});
+                console.debug('[AuthService] User updated', { user });
                 this.user.set(user);
             }),
         );

@@ -11,7 +11,7 @@ O que fazer amanhã 17 de julho
 - [ ] botões de ação
     - [x] editar
     - [x] remover
-    - [ ] escrever regras de negócios para remover registro
+    - [x] escrever regras de negócios para remover registro
 - [x] ajustar cores do sistema, criar cores light e shade
 - [x] responsividade da paginação
 - [ ] ao mudar filtros alterar a url

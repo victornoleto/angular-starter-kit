@@ -7,11 +7,8 @@ export const routes: Routes = [
         canActivate: [authGuard],
         loadComponent: () =>
             import('../../core/layout/auth/auth.component').then(
-            (c) => c.AuthComponent,
-        ),
-        children: [
-            {
-            },
-        ],
-    }
+                (c) => c.AuthComponent,
+            ),
+        children: [{}],
+    },
 ];

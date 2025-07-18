@@ -1,0 +1,33 @@
+<div class="modal-header d-flex flex-column align-items-start">
+    <h6 id="dialog-basic-title" class="card-title fw-semibold mb-0">
+        {{ data().title }}
+    </h6>
+    @if (data().subtitle) {
+        <p class="card-subtitle mb-0 text-muted mt-1">{{ data().subtitle }}</p>
+    }
+</div>
+<div class="modal-body">
+    <p class="mb-0">{{ data().message }}</p>
+    @if (data().details) {
+        <p class="mb-0 text-muted">{{ data().details }}</p>
+    }
+</div>
+<div class="modal-footer d-flex align-items-center gap-2">
+    <button
+        type="button"
+        class="btn btn-light"
+        aria-label="Close"
+        (click)="activeModal.dismiss()"
+    >
+        Cancelar
+    </button>
+    @for (action of data().actions; track action.text) {
+        <button
+            type="button"
+            class="btn {{ action.className }}"
+            (click)="onButtonClick(action)"
+        >
+            {{ action.text }}
+        </button>
+    }
+</div>

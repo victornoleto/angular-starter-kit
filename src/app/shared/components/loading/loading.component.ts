@@ -8,7 +8,6 @@ import { Component, input, ViewEncapsulation } from '@angular/core';
     encapsulation: ViewEncapsulation.None,
 })
 export class LoadingComponent {
-    
     public message = input<string | null>(null);
 
     constructor() {

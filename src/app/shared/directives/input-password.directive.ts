@@ -36,7 +36,7 @@ export class InputPasswordDirective implements OnInit {
         this.renderer.insertBefore(
             parentElement,
             this.wrapperDiv,
-            inputElement
+            inputElement,
         );
 
         // Move o input para dentro da div wrapper
@@ -94,7 +94,7 @@ export class InputPasswordDirective implements OnInit {
             this.renderer.setAttribute(
                 this.toggleButton,
                 'title',
-                'Ocultar senha'
+                'Ocultar senha',
             );
         } else {
             this.renderer.addClass(icon, 'fal');
@@ -102,7 +102,7 @@ export class InputPasswordDirective implements OnInit {
             this.renderer.setAttribute(
                 this.toggleButton,
                 'title',
-                'Mostrar senha'
+                'Mostrar senha',
             );
         }
 

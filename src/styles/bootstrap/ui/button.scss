@@ -1,6 +1,9 @@
 @use "../../colors.scss" as colors;
 
 .btn {
+    --bs-btn-hover-color: var(--bs-btn-color);
+    --bs-btn-active-color: var(--bs-btn-color);
+
     &.btn-light {
         --bs-btn-border-color: #ccc;
         --bs-btn-hover-bg: #e9e9e9;
@@ -22,8 +25,6 @@
     --bs-btn-border-width: 0;
 }
 
-@each $name, $color in colors.$base-colors {
-    .btn-#{$name}-light {
-        --bs-btn-color: var(--bs-#{$name});
-    }
+.btn-primary-light {
+    --bs-btn-color: #fff;
 }

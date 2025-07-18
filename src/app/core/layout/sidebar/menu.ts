@@ -3,12 +3,12 @@ export interface MenuItem {
     icon?: string;
     link?: string;
     children?: MenuItem[];
-};
+}
 
 export interface MenuSection {
     legend?: string;
     children: MenuItem[];
-};
+}
 
 export const menu: MenuSection[] = [
     {
@@ -23,7 +23,7 @@ export const menu: MenuSection[] = [
                 icon: 'fal fa-code',
                 link: '/ui-components',
             },
-        ]
+        ],
     },
     {
         legend: 'Cadastros',
@@ -44,8 +44,8 @@ export const menu: MenuSection[] = [
                     {
                         label: 'Subpage B2',
                         link: '/subpage-b2',
-                    }
-                ]
+                    },
+                ],
             },
             {
                 label: 'Page C',
@@ -69,11 +69,11 @@ export const menu: MenuSection[] = [
                             {
                                 label: 'Subpage C3.2',
                                 link: '/subpage-c3-2',
-                            }
-                        ]
-                    }
-                ]
+                            },
+                        ],
+                    },
+                ],
             },
-        ]
+        ],
     },
 ];

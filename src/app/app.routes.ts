@@ -8,14 +8,17 @@ export const routes: Routes = [
     },
     {
         path: '',
-        loadChildren: () => import('./core/auth/auth.routes').then(m => m.routes),
+        loadChildren: () =>
+            import('./core/auth/auth.routes').then((m) => m.routes),
     },
     {
         path: '',
-        loadChildren: () => import('./feature/home/home.routes').then(m => m.routes),
+        loadChildren: () =>
+            import('./feature/home/home.routes').then((m) => m.routes),
     },
     {
         path: '',
-        loadChildren: () => import('./feature/users/users.routes').then(m => m.routes),
-    }
+        loadChildren: () =>
+            import('./feature/users/users.routes').then((m) => m.routes),
+    },
 ];

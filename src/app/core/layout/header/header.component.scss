@@ -3,7 +3,6 @@
 
     // telas maiores
     @media (min-width: 992px) {
-
         // sidebar aberta completamente
         &:not(.sidebar-toggled) {
             padding-inline-start: var(--sidebar-width);

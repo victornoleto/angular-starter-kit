@@ -67,5 +67,8 @@
 </div>
 
 @if (users() && users()!.total > 0) {
-    <app-pagination [pagination]="users()" (onChange)="pageChange.emit($event)" />
+    <app-pagination
+        [pagination]="users()"
+        (onChange)="pageChange.emit($event)"
+    />
 }

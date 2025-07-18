@@ -7,13 +7,19 @@ import { User } from '../../core/auth/models/user.model';
 import { UsersFilters } from './pages/users-index/components/users-filters/users-filters.component';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class UsersService {
     private readonly http = inject(HttpClient);
     private readonly baseUrl = `${env.url}/api/users`;
-    
+
     get(filters: UsersFilters = {}): Observable<LengthAwarePaginator<User>> {
-        return this.http.get<LengthAwarePaginator<User>>(this.baseUrl, { params: filters });
+        return this.http.get<LengthAwarePaginator<User>>(this.baseUrl, {
+            params: filters,
+        });
+    }
+
+    delete(userId: number): Observable<void> {
+        return this.http.delete<void>(`${this.baseUrl}/${userId}`);
     }
 }

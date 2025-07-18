@@ -16,10 +16,9 @@ export interface AlertOptions {
 }
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class AlertService {
-
     constructor() {}
 
     show(options: AlertOptions): void {
@@ -30,7 +29,7 @@ export class AlertService {
             duration = 5000,
             dismissible = true,
             container,
-            onDismiss
+            onDismiss,
         } = options;
 
         let classNames = [
@@ -60,11 +59,17 @@ export class AlertService {
             });
         }
 
-        var defaultContainerElement = document.querySelector('#alert-container') as HTMLDivElement;
+        var defaultContainerElement = document.querySelector(
+            '#alert-container',
+        ) as HTMLDivElement;
 
         // Append to container or body
         // TODO: no futuro, se não tiver o container, exibir alerta num dialog
-        (container?.nativeElement || defaultContainerElement || document.body).appendChild(alertElement);
+        (
+            container?.nativeElement ||
+            defaultContainerElement ||
+            document.body
+        ).appendChild(alertElement);
 
         if (typeof duration === 'number' && duration > 0) {
             // Auto-dismiss after duration
@@ -75,7 +80,6 @@ export class AlertService {
     }
 
     dismiss(alertElement: AlertElement, onDismiss?: () => void): void {
-
         // Cancela o timeout se existir
         if (alertElement.dismissTimeout) {
             clearTimeout(alertElement.dismissTimeout);
