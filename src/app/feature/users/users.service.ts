@@ -30,13 +30,9 @@ export class UsersService {
         });
     } */
 
-    get(props: Signal<any> = signal({})) {
+    get(props: Signal<UsersSearchProps>) {
         console.debug('users.service get', props());
-        return httpResource<any>(() => {
-            /* const params = {
-                ...props().filters,
-                ...props().pagination,
-            }; */
+        return httpResource<LengthAwarePaginator<User>>(() => {
             return {
                 url: this.baseUrl,
                 params: new HttpParams({
@@ -44,10 +40,9 @@ export class UsersService {
                         ...props().filters,
                         ...props().pagination,
                     }
-                    //fromObject: params,
                 }),
             } as HttpResourceRequest
-        })
+        });
     }
 
     delete(userId: number): Observable<void> {

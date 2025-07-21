@@ -17,45 +17,90 @@
 
     <div class="card">
         <div class="card-body">
+            <!-- users-filters component -->
+            <form [formGroup]="filtersForm" class="mb-3">
+                <input
+                    type="text"
+                    name="search"
+                    class="form-control"
+                    placeholder="Pesquisar por usuários..."
+                    formControlName="search"
+                />
+                <pre>{{ filtersForm.value | json }}</pre>
+                <pre>Test: {{ test() | json }}</pre>
+            </form>
 
-            <pre>{{ filters() | json }}</pre>
-            <pre>{{ users.status() }}</pre>
-            <pre>{{ users.error() }}</pre>
-
-            <pre>Pagination Status {{ pagination() | json }}</pre>
-            <pre>Search Status {{ filters() | json }}</pre>
-            
-            <input type="search" [(ngModel)]="search" class="form-control mb-3" placeholder="Pesquisar usuários" />
-            <pre>users-index.component search: {{ search() }}</pre>
-
-            <app-users-table
-                [users]="users"
-                [sort]="sort()"
-                [pagination]="pagination()"
-                [search]="search()"
-                ></app-users-table>
+            <div class="table-responsive">
+                <table
+                    class="table table-bordered"
+                    appTableSortable
+                    (sortChange)="onSortChanged($event)"
+                >
+                    <thead>
+                        <tr>
+                            <th data-sort="id">ID</th>
+                            <th data-sort="name">Nome</th>
+                            <th data-sort="email">E-mail</th>
+                            <th data-sort="created_at">Dt. criação</th>
+                            <th data-sort="updated_at">Dt. atualização</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    @if (users.isLoading()) {
+                        <tbody appTableLoading [n]="10" [props]="tablePlaceholderProps"></tbody>
+                    } @else {
+                        <tbody>
+                            @for (user of users.value()?.data; track user.id) {
+                                <tr>
+                                    <td>{{ user.id }}</td>
+                                    <td>{{ user.name }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>{{ user.created_at | date }}</td>
+                                    <td>{{ user.updated_at | date }}</td>
+                                    <td>
+                                        <app-table-buttons>
+                                            <app-table-button-edit
+                                                [url]="['users', user.id, 'edit']"
+                                            ></app-table-button-edit>
+                                            <app-table-button-delete
+                                                (onDelete)="
+                                                    onDeleteConfirmed(user)
+                                                "
+                                            ></app-table-button-delete>
+                                        </app-table-buttons>
+                                    </td>
+                                </tr>
+                            } @empty {
+                                <tr>
+                                    <td colspan="6">
+                                        @if (users.isLoading()) {
+                                            <app-page-message
+                                                icon="⏳"
+                                                message="Carregando usuários..."
+                                                details="Por favor, aguarde enquanto os dados são carregados."
+                                            >
+                                            </app-page-message>
+                                        } @else {
+                                            <app-page-message
+                                                message="Nenhum usuário encontrado"
+                                                details="Verifique os filtros aplicados ou tente novamente mais tarde."
+                                            >
+                                            </app-page-message>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    }
+                </table>
+            </div>
 
             <app-pagination
                 [collection]="users.value()"
-                [pagination]="pagination()"
+                (onPageChange)="onPageChanged($event)"
+                (onPerPageChange)="onPerPageChanged($event)"
             ></app-pagination>
-            <!-- [isLoading]="isLoading()"
-            (pageChange)="onPageChange($event)"
-            (perPageChange)="onPerPageChange($event)"
-            (sortChange)="onSortChange($event)"
-            (deleteConfirmed)="onDeleteConfirmed($event)" -->
-            
-            <!-- <app-users-filters
-                (onChange)="onFiltersChange()"
-            ></app-users-filters>
-            @if (error()) {
-                <app-page-message
-                    icon="🚨"
-                    message="Não foi possível carregar os usuários"
-                    [details]="error() ?? ''"
-                ></app-page-message>
-            } @else {
-            } -->
+
         </div>
     </div>
 </div>

@@ -8,6 +8,7 @@ import {
     inject,
     resource,
     computed,
+    effect,
 } from '@angular/core';
 import { UsersSearchProps, UsersService } from '../../users.service';
 import { LengthAwarePaginator } from '../../../../shared/models/length-aware-paginator';
@@ -17,15 +18,20 @@ import {
     UsersFiltersComponent,
 } from './components/users-filters/users-filters.component';
 import { UsersTableComponent } from './components/users-table/users-table.component';
-import { TableSort } from '../../../../shared/directives/table-sortable.directive';
+import { TableSort, TableSortableDirective } from '../../../../shared/directives/table-sortable.directive';
 import { RouterLink } from '@angular/router';
 import { getErrorMessage } from '../../../../shared/utils/error.utils';
 import { PageMessageComponent } from '../../../../shared/components/page-message/page-message.component';
 import { DialogService } from '../../../../shared/services/dialog.service';
 import { env } from '../../../../../env';
-import { FormsModule } from '@angular/forms';
-import { JsonPipe } from '@angular/common';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DatePipe, JsonPipe } from '@angular/common';
 import { PaginationComponent, PaginationProps } from '../../../../shared/components/pagination/pagination.component';
+import { TableButtonsComponent } from '../../../../shared/components/table/table-buttons/table-buttons.component';
+import { TableButtonEditComponent } from '../../../../shared/components/table/table-button-edit/table-button-edit.component';
+import { TableButtonDeleteComponent } from '../../../../shared/components/table/table-button-delete/table-button-delete.component';
+import { generatePlaceholderString, generatePlaceholderVariableString } from '../../../../shared/utils/faker.utils';
+import { TableLoadingComponent, TablePlaceholderProps } from '../../../../shared/components/table/table-loading/table-loading.component';
 
 @Component({
     selector: 'app-users-index',
@@ -33,49 +39,36 @@ import { PaginationComponent, PaginationProps } from '../../../../shared/compone
     styleUrl: './users-index.component.scss',
     imports: [
         FormsModule,
+        ReactiveFormsModule,
         RouterLink,
         JsonPipe,
         UsersFiltersComponent,
         UsersTableComponent,
         PageMessageComponent,
         PaginationComponent,
+        TableSortableDirective,
+        DatePipe,
+        TableButtonsComponent,
+        TableButtonEditComponent,
+        TableButtonDeleteComponent,
+        TableLoadingComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsersIndexComponent implements OnInit {
+
+    private readonly fb = new FormBuilder();
+
+    readonly filtersForm = this.fb.group({
+        search: ['', []],
+    });
+
     private readonly usersService = inject(UsersService);
     private readonly dialogService = inject(DialogService);
 
-    //public users = signal<LengthAwarePaginator<User> | null>(null);
-    /* public isLoading = signal<boolean>(false);
-    public currentPerPage = signal<number>(10);
-    public currentPage = signal<number>(1);
-    public currentSort = signal<TableSort | null>(null);
-    public error = signal<string | null>(null); */
-
-    // Referência para os componentes filhos
-    private readonly usersFiltersComponent = viewChild.required(
-        UsersFiltersComponent,
-    );
-
-    /* page = signal<number>(1);
-    perPage = signal<number>(10);
-
-    sortBy = signal<string | undefined>(undefined);
-    sortDirection = signal<'asc' | 'desc' | undefined>(undefined);
-    sort = computed(() => {
-        if (this.sortBy() && this.sortDirection()) {
-            return {
-                column: this.sortBy()!,
-                direction: this.sortDirection()! as 'asc' | 'desc',
-            };
-        }
-        return null;
-    }); */
-
     sort = signal<TableSort>({
-        column: 'id',
-        direction: 'desc',
+        sortBy: 'id',
+        sortDirection: 'desc',
     });
 
     pagination = signal<PaginationProps>({
@@ -83,23 +76,91 @@ export class UsersIndexComponent implements OnInit {
         perPage: 10,
     });
 
-    search = signal<string>('');
+    filters = signal<any>({});
 
-    filters = computed(() => {
-        const search = this.search();
+    searchProps = computed(() => {
         const pagination = this.pagination();
+        const filters = this.filters();
+        const sort = this.sort();
         return {
             filters: {
-                search,
-                ...pagination
+                ...filters,
+                ...pagination,
+                ...sort
             },
         }
     });
 
-    users = this.usersService.get(this.filters);
+    constructor() {
+        this.filtersForm.valueChanges.subscribe((value) => {
+            this.filters.set(value);
+        });
+    }
+
+    placeholderUsers = Array.from({ length: 10 }, (_, i) => ({
+        id: generatePlaceholderString(3),
+        name: generatePlaceholderVariableString(6, 28),
+        email: generatePlaceholderVariableString(17, 32),
+        created_at: generatePlaceholderString(12),
+        updated_at: generatePlaceholderString(12),
+    }));
+
+    tablePlaceholderProps: TablePlaceholderProps = [
+        3, // ID
+        { min: 14, max: 28 }, // Name
+        { min: 17, max: 32 }, // Email
+        12, // Created At
+        12, // Updated At
+        6, // Actions (buttons)
+    ];
+
+    users = this.usersService.get(this.searchProps);
+
+    test = computed(() => {
+        return 10;
+    });
 
     ngOnInit(): void {
-        //this.refresh();
+    }
+
+    onSortChanged(sort: TableSort): void {
+        this.sort.set(sort);
+    }
+
+    onDeleteConfirmed(user: User): void {
+        this.usersService.delete(user.id).subscribe({
+            next: () => {
+            },
+            error: (error) => {
+                this.dialogService.open({
+                    title: '🔴 Atenção!',
+                    message: 'Não foi possível remover o usuário.',
+                    details: getErrorMessage(error),
+                    actions: [
+                        {
+                            text: 'Tentar novamente',
+                            className: 'btn-primary',
+                            handler: () => this.onDeleteConfirmed(user),
+                        },
+                    ],
+                });
+            },
+        });
+    }
+
+    onPerPageChanged(perPage: number): void {
+        this.pagination.update((prev) => ({
+            ...prev,
+            perPage,
+            page: 1, // Reset to first page on perPage change
+        }));
+    }
+
+    onPageChanged(page: string | number): void {
+        this.pagination.update((prev) => ({
+            ...prev,
+            page: Number(page),
+        }));
     }
 
     /* refresh() {
@@ -145,26 +206,5 @@ export class UsersIndexComponent implements OnInit {
         this.currentSort.set(sort);
         this.refresh();
     }
-
-    onDeleteConfirmed(user: User): void {
-        this.usersService.delete(user.id).subscribe({
-            next: () => {
-                this.refresh();
-            },
-            error: (error) => {
-                this.dialogService.open({
-                    title: '🔴 Atenção!',
-                    message: 'Não foi possível remover o usuário.',
-                    details: getErrorMessage(error),
-                    actions: [
-                        {
-                            text: 'Tentar novamente',
-                            className: 'btn-primary',
-                            handler: () => this.onDeleteConfirmed(user),
-                        },
-                    ],
-                });
-            },
-        });
-    } */
+     */
 }

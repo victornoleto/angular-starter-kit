@@ -20,9 +20,10 @@
 }
 
 .btn.btn-table-button {
-    --bs-btn-padding-y: 2px;
+    --bs-btn-padding-y: 0px;
     --bs-btn-padding-x: 2px;
     --bs-btn-border-width: 0;
+    vertical-align: unset;
 }
 
 .btn-primary-light {

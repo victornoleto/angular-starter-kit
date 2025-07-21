@@ -1,14 +1,15 @@
-import { Directive, ElementRef, output, signal } from '@angular/core';
+import { Directive, ElementRef, input, output, signal } from '@angular/core';
 
 export interface TableSort {
-    column: string;
-    direction: 'asc' | 'desc';
+    sortBy: string;
+    sortDirection: 'asc' | 'desc';
 }
 
 @Directive({
     selector: '[appTableSortable]',
 })
 export class TableSortableDirective {
+
     // Signal para armazenar a coluna atual sendo ordenada
     private readonly currentSort = signal<TableSort | null>(null);
 
@@ -34,22 +35,23 @@ export class TableSortableDirective {
     }
 
     private handleSort(thElement: HTMLElement): void {
-        const column = thElement.getAttribute('data-sort');
-        if (!column) return;
+
+        const sortBy = thElement.getAttribute('data-sort');
+        if (!sortBy) return;
 
         const currentSort = this.currentSort();
-        let direction: 'asc' | 'desc' = 'asc';
+        let sortDirection: 'asc' | 'desc' = 'asc';
 
         // Se é a mesma coluna, alterna a direção
-        if (currentSort && currentSort.column === column) {
-            direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+        if (currentSort && currentSort.sortBy === sortBy) {
+            sortDirection = currentSort.sortDirection === 'asc' ? 'desc' : 'asc';
         }
 
-        const newSort: TableSort = { column, direction };
+        const newSort: TableSort = { sortBy, sortDirection };
         this.currentSort.set(newSort);
 
         // Atualiza as classes visuais dos headers
-        this.updateHeaderClasses(thElement, direction);
+        this.updateHeaderClasses(thElement, sortDirection);
 
         // Emite o evento
         this.sortChange.emit(newSort);
