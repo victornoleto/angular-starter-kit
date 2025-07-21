@@ -1,13 +1,13 @@
-<app-per-page
-    [value]="users()?.per_page"
-    (onChange)="perPageChange.emit($event)"
-/>
+<input type="search" [(value)]="search" class="form-control mb-3" placeholder="Pesquisar usuários" />
+<pre>users-index.component search: {{ search() }}</pre>
+
+<pre>users.table pagination {{ pagination() | json }}</pre>
 
 <div class="table-responsive">
     <table
         class="table table-bordered"
         appTableSortable
-        (sortChange)="sortChange.emit($event)"
+        (sortChange)="onSortChanged($event)"
     >
         <thead>
             <tr>
@@ -20,26 +20,37 @@
             </tr>
         </thead>
         <tbody>
-            @if (users() !== null) {
-                @for (user of usersData(); track user.id) {
+            @for (user of usersList(); track user.id) {
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.created_at | date }}</td>
+                    <td>{{ user.updated_at | date }}</td>
+                    <td>
+                        <app-table-buttons>
+                            <app-table-button-edit
+                                [url]="['users', user.id, 'edit']"
+                            ></app-table-button-edit>
+                            <app-table-button-delete
+                                (onDelete)="onDeletedConfirmed(user)"
+                            ></app-table-button-delete>
+                        </app-table-buttons>
+                    </td>
+                </tr>
+            } @empty {
+                <!-- @if (users().isLoading()) {
                     <tr>
-                        <td>{{ user.id }}</td>
-                        <td>{{ user.name }}</td>
-                        <td>{{ user.email }}</td>
-                        <td>{{ user.created_at | date }}</td>
-                        <td>{{ user.updated_at | date }}</td>
-                        <td>
-                            <app-table-buttons>
-                                <app-table-button-edit
-                                    [url]="['users', user.id, 'edit']"
-                                ></app-table-button-edit>
-                                <app-table-button-delete
-                                    (onDelete)="deleteConfirmed.emit(user)"
-                                ></app-table-button-delete>
-                            </app-table-buttons>
+                        <td colspan="6">
+                            <app-page-message
+                                icon="⏳"
+                                message="Carregando usuários..."
+                                details="Por favor, aguarde enquanto os dados são carregados."
+                            >
+                            </app-page-message>
                         </td>
                     </tr>
-                } @empty {
+                } @else {
                     <tr>
                         <td colspan="6">
                             <app-page-message
@@ -49,26 +60,15 @@
                             </app-page-message>
                         </td>
                     </tr>
-                }
-            } @else if (isLoading()) {
-                <tr>
-                    <td colspan="6">
-                        <app-page-message
-                            icon="⏳"
-                            message="Carregando usuários..."
-                            details="Por favor, aguarde enquanto os dados são carregados."
-                        >
-                        </app-page-message>
-                    </td>
-                </tr>
+                } -->
             }
         </tbody>
     </table>
 </div>
 
-@if (users() && users()!.total > 0) {
+<!-- @if (total() > 0) {
     <app-pagination
-        [pagination]="users()"
-        (onChange)="pageChange.emit($event)"
-    />
-}
+        [collection]="users().value()"
+        [pagination]="pagination"
+    ></app-pagination>
+} -->

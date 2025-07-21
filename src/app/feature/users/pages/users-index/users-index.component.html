@@ -17,7 +17,35 @@
 
     <div class="card">
         <div class="card-body">
-            <app-users-filters
+
+            <pre>{{ filters() | json }}</pre>
+            <pre>{{ users.status() }}</pre>
+            <pre>{{ users.error() }}</pre>
+
+            <pre>Pagination Status {{ pagination() | json }}</pre>
+            <pre>Search Status {{ filters() | json }}</pre>
+            
+            <input type="search" [(ngModel)]="search" class="form-control mb-3" placeholder="Pesquisar usuários" />
+            <pre>users-index.component search: {{ search() }}</pre>
+
+            <app-users-table
+                [users]="users"
+                [sort]="sort()"
+                [pagination]="pagination()"
+                [search]="search()"
+                ></app-users-table>
+
+            <app-pagination
+                [collection]="users.value()"
+                [pagination]="pagination()"
+            ></app-pagination>
+            <!-- [isLoading]="isLoading()"
+            (pageChange)="onPageChange($event)"
+            (perPageChange)="onPerPageChange($event)"
+            (sortChange)="onSortChange($event)"
+            (deleteConfirmed)="onDeleteConfirmed($event)" -->
+            
+            <!-- <app-users-filters
                 (onChange)="onFiltersChange()"
             ></app-users-filters>
             @if (error()) {
@@ -27,15 +55,7 @@
                     [details]="error() ?? ''"
                 ></app-page-message>
             } @else {
-                <app-users-table
-                    [users]="users()"
-                    [isLoading]="isLoading()"
-                    (pageChange)="onPageChange($event)"
-                    (perPageChange)="onPerPageChange($event)"
-                    (sortChange)="onSortChange($event)"
-                    (deleteConfirmed)="onDeleteConfirmed($event)"
-                ></app-users-table>
-            }
+            } -->
         </div>
     </div>
 </div>

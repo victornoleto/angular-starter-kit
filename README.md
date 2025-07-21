@@ -8,7 +8,7 @@ O que fazer amanhã 17 de julho
 - [x] componente para tabela vázia
 - [x] loading ao carregar registros
 - [x] componente para erro ao carregar tabela
-- [ ] botões de ação
+- [x] botões de ação
     - [x] editar
     - [x] remover
     - [x] escrever regras de negócios para remover registro
@@ -90,6 +90,17 @@ O angular 20 removeu o sufixo que indicava qual era o tipo daquela classe. Para 
 Leitura recomendada:
 - https://www.reddit.com/r/Angular2/comments/1l9iq1s/angular_20_removing_suffixes_from_components/
 - https://www.reddit.com/r/Angular2/comments/1kzh729/angular_20_cli_generates_userts_instead_of/
+
+Estudos/leitura recomendada:
+- https://www.youtube.com/watch?v=JGQmn3c5UeE
+- https://angular.dev/guide/signals
+    - A seção que fala sobre effects é muito importante. "Effects are rarely needed in most application code".
+- https://courses.decodedfrontend.io/courses/advanced-angular-forms?coupon=VID_DYNAMIC_VALIDATION_TDF_10
+- https://www.youtube.com/watch?v=ErHbxSq_dYM
+- https://www.youtube.com/watch?v=S2DqZxjjL3o
+- https://www.youtube.com/watch?v=W7-lsoL-Gi8
+- https://www.youtube.com/watch?v=CeEWK9dqIQU
+
 
 # Nginx
 

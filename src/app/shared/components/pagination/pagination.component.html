@@ -1,61 +1,75 @@
-<div class="d-flex flex-column justify-content-center align-items-center gap-2">
-    <ul class="pagination m-0" role="navigation">
-        @for (link of pagination()?.links; track link.label + link.url) {
-            @if (link.label.endsWith("Previous")) {
-                <li
-                    class="page-item"
-                    [class.disabled]="pagination()?.current_page === 1"
-                >
-                    <a
-                        class="page-link"
-                        href="javascript:void(0);"
-                        (click)="changePage(pagination()!.current_page - 1)"
-                    >
-                        <span aria-hidden="true"
-                            ><i class="fal fa-chevron-left"></i
-                        ></span>
-                    </a>
-                </li>
-            } @else if (link.label.startsWith("Next")) {
-                <li
-                    class="page-item"
-                    [class.disabled]="
-                        pagination()?.current_page === pagination()?.last_page
-                    "
-                >
-                    <a
-                        class="page-link"
-                        href="javascript:void(0);"
-                        (click)="changePage(pagination()!.current_page + 1)"
-                    >
-                        <span aria-hidden="true"
-                            ><i class="fal fa-chevron-right"></i
-                        ></span>
-                    </a>
-                </li>
-            } @else if (link.label === "...") {
-                <li class="page-item">
-                    <span class="page-link">...</span>
-                </li>
-            } @else {
-                <li
-                    class="page-item"
-                    [class.active]="link.active"
-                    aria-current="page"
-                >
-                    <a
-                        class="page-link"
-                        href="javascript:void(0);"
-                        (click)="changePage(link.label)"
-                    >
-                        {{ link.label }}
-                    </a>
-                </li>
-            }
-        }
-    </ul>
-    <small class="text-muted m-0"
-        >Exibindo {{ pagination()?.from }} - {{ pagination()?.to }} de
-        {{ pagination()?.total }}</small
-    >
+<div class="d-flex gap-3">
+
+    <!-- <app-per-page
+        [value]="collection().per_page"
+        (onChange)="onPerPageChanged($event)"
+    /> -->
+
+    @if (collection() && collection().links && collection().links.length > 0) {
+        <div class="d-flex flex-column align-items-end gap-2 ms-auto">
+        
+            <ul class="pagination m-0" role="navigation">
+                @for (link of collection().links; track link.label + link.url) {
+                    @if (link.label.endsWith("Previous")) {
+                        <li
+                            class="page-item"
+                            [class.disabled]="collection().current_page === 1"
+                        >
+                            <a
+                                class="page-link"
+                                href="javascript:void(0);"
+                                (click)="onPageChanged(collection().current_page - 1)"
+                            >
+                                <span aria-hidden="true"
+                                    ><i class="fal fa-chevron-left"></i
+                                ></span>
+                            </a>
+                        </li>
+                    } @else if (link.label.startsWith("Next")) {
+                        <li
+                            class="page-item"
+                            [class.disabled]="
+                                collection().current_page === collection().last_page
+                            "
+                        >
+                            <a
+                                class="page-link"
+                                href="javascript:void(0);"
+                                (click)="onPageChanged(collection()!.current_page + 1)"
+                            >
+                                <span aria-hidden="true"
+                                    ><i class="fal fa-chevron-right"></i
+                                ></span>
+                            </a>
+                        </li>
+                    } @else if (link.label === "...") {
+                        <li class="page-item">
+                            <span class="page-link">...</span>
+                        </li>
+                    } @else {
+                        <li
+                            class="page-item"
+                            [class.active]="link.active"
+                            aria-current="page"
+                        >
+                            <a
+                                class="page-link"
+                                href="javascript:void(0);"
+                                (click)="onPageChanged(link.label)"
+                            >
+                                {{ link.label }}
+                            </a>
+                        </li>
+                    }
+                }
+            </ul>
+            <small class="text-muted m-0"
+                >Exibindo {{ collection().from }} - {{ collection().to }} de
+                {{ collection().total }}</small
+            >
+        </div>
+    }
+
 </div>
+
+<pre>{{ pagination() | json }}</pre>

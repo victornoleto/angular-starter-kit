@@ -33,7 +33,7 @@ export class LoginComponent {
             [Validators.required, Validators.email],
         ],
         password: [
-            'password123',
+            'password',
             [Validators.required, Validators.minLength(6)],
         ],
     });

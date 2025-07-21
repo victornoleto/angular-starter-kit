@@ -48,6 +48,8 @@ export const ApiInterceptor: HttpInterceptorFn = (
         );
     }
 
+    console.log('Api Http Interceptor: skipping CSRF for GET request', req.url);
+
     // Requisição GET: segue direto
     return next(modifiedReq);
 };
