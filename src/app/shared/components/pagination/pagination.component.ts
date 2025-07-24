@@ -1,5 +1,5 @@
 import { Component, computed, input, model, ModelSignal, output } from '@angular/core';
-import { LengthAwarePaginator, PaginatorLink } from '../../models/length-aware-paginator';
+import { LengthAwarePaginator, PaginatorLink } from '../../models/paginator';
 import { PerPageComponent } from '../form/per-page/per-page.component';
 import { JsonPipe } from '@angular/common';
 

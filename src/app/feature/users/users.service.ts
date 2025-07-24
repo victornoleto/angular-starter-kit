@@ -2,20 +2,9 @@ import { HttpClient, HttpParams, httpResource, HttpResourceRequest } from '@angu
 import { inject, Injectable, signal, Signal } from '@angular/core';
 import { env } from '../../../env';
 import { Observable } from 'rxjs';
-import { LengthAwarePaginator } from '../../shared/models/length-aware-paginator';
-import { User } from '../../core/auth/models/user.model';
-import { UsersFilters } from './pages/users-index/components/users-filters/users-filters.component';
-import { TableSort } from '../../shared/directives';
-import { PaginationProps } from '../../shared/components/pagination/pagination.component';
-
-export interface SearchProps {
-    sort?: TableSort;
-    pagination?: PaginationProps;
-}
-
-export interface UsersSearchProps extends SearchProps {
-    filters?: UsersFilters;
-}
+import { LengthAwarePaginator } from '../../shared/models/paginator';
+import { User } from './models/user.model';
+import { UsersSearch } from './models/users-search.model';
 
 @Injectable({
     providedIn: 'root',
@@ -24,24 +13,15 @@ export class UsersService {
     private readonly http = inject(HttpClient);
     private readonly baseUrl = `${env.url}/api/users`;
 
-    /* get(filters: UsersFilters = {}): Observable<LengthAwarePaginator<User>> {
+    get(params: UsersSearch = {}): Observable<LengthAwarePaginator<User>> {
         return this.http.get<LengthAwarePaginator<User>>(this.baseUrl, {
-            params: filters,
-        });
-    } */
-
-    get(props: Signal<UsersSearchProps>) {
-        console.debug('users.service get', props());
-        return httpResource<LengthAwarePaginator<User>>(() => {
-            return {
-                url: this.baseUrl,
-                params: new HttpParams({
-                    fromObject: {
-                        ...props().filters,
-                        ...props().pagination,
-                    }
-                }),
-            } as HttpResourceRequest
+            params: new HttpParams({
+                fromObject: {
+                    ...params?.filters,
+                    ...params?.pagination,
+                    ...params?.sort,
+                }
+            }),
         });
     }
 

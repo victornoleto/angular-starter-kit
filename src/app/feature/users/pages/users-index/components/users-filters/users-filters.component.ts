@@ -1,46 +1,45 @@
-import { Component, output, OnDestroy } from '@angular/core';
+import { Component, output, input, effect, model } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
-
-export interface UsersFilters extends Record<string, any> {
-    page?: number;
-    per_page?: number;
-    search?: string;
-    sort_by?: string;
-    sort_direction?: 'asc' | 'desc';
-}
+import { UsersFilters } from '../../../../models/users-filters.model';
+import { JsonPipe } from '@angular/common';
+import { isEqual } from '../../../../../../shared/utils/compare.utils';
 
 @Component({
     selector: 'app-users-filters',
-    imports: [ReactiveFormsModule],
+    imports: [
+        ReactiveFormsModule,
+        JsonPipe,
+    ],
     templateUrl: './users-filters.component.html',
     styleUrl: './users-filters.component.scss',
 })
-export class UsersFiltersComponent implements OnDestroy {
+export class UsersFiltersComponent {
+
     private readonly fb = new FormBuilder();
-    private readonly destroy$ = new Subject<void>();
 
     readonly form = this.fb.group({
         search: ['', []],
     });
 
-    readonly onChange = output<void>();
+    readonly value = input<UsersFilters>({});
+    readonly onFiltersChanged = output<UsersFilters>();
 
     constructor() {
-        this.form
-            .get('search')
-            ?.valueChanges.pipe(
-                debounceTime(100), // Aguarda 500ms após o último caractere digitado
-                distinctUntilChanged(), // Só emite se o valor mudou
-                takeUntil(this.destroy$), // Cancela a subscription quando o componente for destruído
-            )
-            .subscribe(() => {
-                this.onChange.emit();
-            });
-    }
 
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
+        effect(() => {
+
+            const value = this.value();
+            const formValue = this.form.value as UsersFilters;
+
+            if (!isEqual(value, formValue)) {
+                this.form.patchValue(value, {
+                    emitEvent: false // Não emite evento ao inicializar o formulário
+                });
+            }
+        })
+
+        this.form.valueChanges.subscribe(value => {
+            this.onFiltersChanged.emit(value as UsersFilters);
+        })
     }
 }

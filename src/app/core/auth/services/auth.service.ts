@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { firstValueFrom, Observable, tap } from 'rxjs';
 import { env } from '../../../../env';
-import { User } from '../models/user.model';
+import { User } from '../../../feature/users/models/user.model';
 import { LoginRequest, RegisterRequest } from '../models/auth.model';
 
 @Injectable({

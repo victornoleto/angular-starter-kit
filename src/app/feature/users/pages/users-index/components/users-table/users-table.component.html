@@ -1,8 +1,14 @@
+<pre>users.table isLoading {{ isLoading() }}</pre>
+<pre>users.table sort {{ sort() | json }}</pre>
+
 <div class="table-responsive">
     <table
         class="table table-bordered"
         appTableSortable
-        (sortChange)="onSortChanged($event)"
+        appTableLoading
+        [isLoading]="isLoading()"
+        [currentSort]="sort()"
+        (sortChange)="onSortChanged.emit($event)"
     >
         <thead>
             <tr>
@@ -15,7 +21,7 @@
             </tr>
         </thead>
         <tbody>
-            @for (user of usersList(); track user.id) {
+            @for (user of users()?.data; track user.id) {
                 <tr>
                     <td>{{ user.id }}</td>
                     <td>{{ user.name }}</td>
@@ -28,42 +34,34 @@
                                 [url]="['users', user.id, 'edit']"
                             ></app-table-button-edit>
                             <app-table-button-delete
-                                (onDelete)="onDeletedConfirmed(user)"
+                                (onDelete)="onDeleteConfirmed.emit(user)"
                             ></app-table-button-delete>
                         </app-table-buttons>
                     </td>
                 </tr>
             } @empty {
-                <!-- @if (users().isLoading()) {
-                    <tr>
-                        <td colspan="6">
-                            <app-page-message
-                                icon="⏳"
-                                message="Carregando usuários..."
-                                details="Por favor, aguarde enquanto os dados são carregados."
-                            >
-                            </app-page-message>
-                        </td>
-                    </tr>
-                } @else {
-                    <tr>
-                        <td colspan="6">
-                            <app-page-message
-                                message="Nenhum usuário encontrado"
-                                details="Verifique os filtros aplicados ou tente novamente mais tarde."
-                            >
-                            </app-page-message>
-                        </td>
-                    </tr>
-                } -->
+                <tr>
+                    <td colspan="6">
+                        <app-page-message
+                            message="Nenhum usuário encontrado"
+                            details="Verifique os filtros aplicados ou tente novamente mais tarde."
+                        >
+                        </app-page-message>
+                        <!-- <app-page-message
+                icon="⏳"
+                message="Carregando usuários..."
+                details="Por favor, aguarde enquanto os dados são carregados."
+                >
+            </app-page-message> -->
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
 </div>
 
-<!-- @if (total() > 0) {
-    <app-pagination
-        [collection]="users().value()"
-        [pagination]="pagination"
-    ></app-pagination>
-} -->
+<!-- <app-pagination
+[collection]="users.value()"
+(onPageChange)="onPageChanged($event)"
+(onPerPageChange)="onPerPageChanged($event)"
+></app-pagination> -->

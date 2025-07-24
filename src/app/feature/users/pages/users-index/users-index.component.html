@@ -17,89 +17,25 @@
 
     <div class="card">
         <div class="card-body">
-            <!-- users-filters component -->
-            <form [formGroup]="filtersForm" class="mb-3">
-                <input
-                    type="text"
-                    name="search"
-                    class="form-control"
-                    placeholder="Pesquisar por usuários..."
-                    formControlName="search"
-                />
-                <pre>{{ filtersForm.value | json }}</pre>
-                <pre>Test: {{ test() | json }}</pre>
-            </form>
 
-            <div class="table-responsive">
-                <table
-                    class="table table-bordered"
-                    appTableSortable
-                    (sortChange)="onSortChanged($event)"
-                >
-                    <thead>
-                        <tr>
-                            <th data-sort="id">ID</th>
-                            <th data-sort="name">Nome</th>
-                            <th data-sort="email">E-mail</th>
-                            <th data-sort="created_at">Dt. criação</th>
-                            <th data-sort="updated_at">Dt. atualização</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    @if (users.isLoading()) {
-                        <tbody appTableLoading [n]="10" [props]="tablePlaceholderProps"></tbody>
-                    } @else {
-                        <tbody>
-                            @for (user of users.value()?.data; track user.id) {
-                                <tr>
-                                    <td>{{ user.id }}</td>
-                                    <td>{{ user.name }}</td>
-                                    <td>{{ user.email }}</td>
-                                    <td>{{ user.created_at | date }}</td>
-                                    <td>{{ user.updated_at | date }}</td>
-                                    <td>
-                                        <app-table-buttons>
-                                            <app-table-button-edit
-                                                [url]="['users', user.id, 'edit']"
-                                            ></app-table-button-edit>
-                                            <app-table-button-delete
-                                                (onDelete)="
-                                                    onDeleteConfirmed(user)
-                                                "
-                                            ></app-table-button-delete>
-                                        </app-table-buttons>
-                                    </td>
-                                </tr>
-                            } @empty {
-                                <tr>
-                                    <td colspan="6">
-                                        @if (users.isLoading()) {
-                                            <app-page-message
-                                                icon="⏳"
-                                                message="Carregando usuários..."
-                                                details="Por favor, aguarde enquanto os dados são carregados."
-                                            >
-                                            </app-page-message>
-                                        } @else {
-                                            <app-page-message
-                                                message="Nenhum usuário encontrado"
-                                                details="Verifique os filtros aplicados ou tente novamente mais tarde."
-                                            >
-                                            </app-page-message>
-                                        }
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    }
-                </table>
-            </div>
+            <button type="button" class="btn btn-primary" (click)="isLoading.set(!isLoading())">Toggle Loading</button>
+            <pre>Is Loading? {{ isLoading() }}</pre>
 
-            <app-pagination
-                [collection]="users.value()"
-                (onPageChange)="onPageChanged($event)"
-                (onPerPageChange)="onPerPageChanged($event)"
-            ></app-pagination>
+            <pre>users.index filters {{ filters() | json }}</pre>
+            <pre>users.index sort {{ sort() | json }}</pre>
+            
+            <app-users-filters
+                [value]="filters()"
+                (onFiltersChanged)="onFiltersChanged($event)"
+            ></app-users-filters>
+
+            <app-users-table
+                [users]="users()"
+                [isLoading]="isLoading()"
+                [sort]="sort()"
+                (onSortChanged)="onSortChanged($event)"
+                (onDeleteConfirmed)="onDeleteConfirmed($event)"
+            ></app-users-table>
 
         </div>
     </div>

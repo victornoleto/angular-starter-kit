@@ -19,3 +19,13 @@ export interface LengthAwarePaginator<T> {
     to: number;
     total: number;
 }
+
+export interface Paginator {
+    page: 1,
+    perPage: 10,
+};
+
+export const DEFAULT_PAGINATION: Paginator = {
+    page: 1,
+    perPage: 10,
+};

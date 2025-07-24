@@ -1,9 +1,14 @@
-import { Directive, ElementRef, input, output, signal } from '@angular/core';
+import { Directive, effect, ElementRef, input, model, output, signal } from '@angular/core';
 
 export interface TableSort {
     sortBy: string;
     sortDirection: 'asc' | 'desc';
 }
+
+export const DEFAULT_SORT: TableSort = {
+    sortBy: 'id',
+    sortDirection: 'desc',
+};
 
 @Directive({
     selector: '[appTableSortable]',
@@ -11,7 +16,7 @@ export interface TableSort {
 export class TableSortableDirective {
 
     // Signal para armazenar a coluna atual sendo ordenada
-    private readonly currentSort = signal<TableSort | null>(null);
+    currentSort = model<TableSort>();
 
     // Output para emitir eventos de ordenação
     readonly sortChange = output<TableSort>();
@@ -30,6 +35,18 @@ export class TableSortableDirective {
             // Verifica se o elemento clicado é um th com data-sort
             if (target.tagName === 'TH' && target.hasAttribute('data-sort')) {
                 this.handleSort(target);
+            }
+        });
+
+        effect(() => {
+
+            const sort = this.currentSort();
+
+            if (sort) {
+                const th = table.querySelector(`th[data-sort="${sort.sortBy}"]`);
+                if (th) {
+                    this.updateHeaderClasses(th as HTMLElement, sort.sortDirection);
+                }
             }
         });
     }
