@@ -101,6 +101,15 @@ Estudos/leitura recomendada:
 - https://www.youtube.com/watch?v=W7-lsoL-Gi8
 - https://www.youtube.com/watch?v=CeEWK9dqIQU
 
+Se você quer passar um sinal de um parent para um child, você deve:
+- Usar `input` caso o objetiva seja apenas ler (e ler novamente quando esse valor for alterado) o valor do sinal;
+- Usar `model` caso além de ler você também deseje alterar o valor do sinal dentro do child.
+
+Dois vídeos interessantes para entender melhor o 2 way data binding com models:
+- https://www.youtube.com/watch?v=yjCeaiWXC0U
+- https://www.youtube.com/watch?v=0b43U-l3yGA
+- https://www.youtube.com/watch?v=frXIBKqzTK0
+
 
 # Nginx
 

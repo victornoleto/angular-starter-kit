@@ -10,7 +10,7 @@ export const guestGuard: CanActivateFn = (route, state) => {
         // Verifica se o usuário está realmente autenticado (cookie + sessão válida)
         const isAuthenticated = authService.authState();
 
-        console.debug('GuestGuard status:', !isAuthenticated);
+        //console.debug('GuestGuard status:', !isAuthenticated);
 
         if (!isAuthenticated) {
             return true;

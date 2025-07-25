@@ -1,15 +1,8 @@
 <pre>users.table isLoading {{ isLoading() }}</pre>
 <pre>users.table sort {{ sort() | json }}</pre>
 
-<div class="table-responsive">
-    <table
-        class="table table-bordered"
-        appTableSortable
-        appTableLoading
-        [isLoading]="isLoading()"
-        [currentSort]="sort()"
-        (sortChange)="onSortChanged.emit($event)"
-    >
+<div class="table-responsive" [appLoading]="isLoading()">
+    <table class="table table-bordered" [(appTableSortable)]="sort">
         <thead>
             <tr>
                 <th data-sort="id">ID</th>
@@ -34,7 +27,7 @@
                                 [url]="['users', user.id, 'edit']"
                             ></app-table-button-edit>
                             <app-table-button-delete
-                                (onDelete)="onDeleteConfirmed.emit(user)"
+                                (onDelete)="deleteConfirmed.emit(user)"
                             ></app-table-button-delete>
                         </app-table-buttons>
                     </td>
@@ -48,11 +41,11 @@
                         >
                         </app-page-message>
                         <!-- <app-page-message
-                icon="⏳"
-                message="Carregando usuários..."
-                details="Por favor, aguarde enquanto os dados são carregados."
-                >
-            </app-page-message> -->
+                            icon="⏳"
+                            message="Carregando usuários..."
+                            details="Por favor, aguarde enquanto os dados são carregados."
+                            >
+                        </app-page-message> -->
                     </td>
                 </tr>
             }
@@ -60,8 +53,6 @@
     </table>
 </div>
 
-<!-- <app-pagination
-[collection]="users.value()"
-(onPageChange)="onPageChanged($event)"
-(onPerPageChange)="onPerPageChanged($event)"
-></app-pagination> -->
+<app-pagination
+    [collection]="users()"
+></app-pagination>

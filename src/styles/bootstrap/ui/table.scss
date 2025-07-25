@@ -7,7 +7,7 @@
 }
 
 // Estilos para a diretiva de ordenação de tabela
-table[appTableSortable] {
+table.table-sortable {
     th[data-sort] {
         cursor: pointer;
         user-select: none;

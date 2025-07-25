@@ -38,11 +38,7 @@ export class UsersIndexComponent {
     private readonly usersService = inject(UsersService);
     private readonly dialogService = inject(DialogService);
 
-    //sort = signal<TableSort>(DEFAULT_SORT);
-    sort = signal<TableSort>({
-        sortBy: 'email',
-        sortDirection: 'desc',
-    });
+    sort = signal<TableSort>(DEFAULT_SORT);
     
     pagination = signal<Paginator>(DEFAULT_PAGINATION);
 
@@ -51,6 +47,8 @@ export class UsersIndexComponent {
     });
 
     usersSearch = signal<UsersSearch | null>(null);
+
+    count = signal<number>(10);
 
     private readonly updateUsersSearch = effect(() => {
         const sort = this.sort();
@@ -80,6 +78,7 @@ export class UsersIndexComponent {
     }
 
     users = signal<LengthAwarePaginator<User> | null>(null);
+
     isLoading = signal<boolean>(true);
     error = signal<string | null>(null);
 
@@ -110,11 +109,6 @@ export class UsersIndexComponent {
             });
     }
 
-    onSortChanged(sort: TableSort): void {
-        console.debug('users-index@onSortChanged', sort);
-        this.sort.set(sort);
-    }
-
     onDeleteConfirmed(user: User): void {
         console.debug('users-index@onDeleteConfirmed', user);
         /* this.usersService.delete(user.id).subscribe({
@@ -140,5 +134,29 @@ export class UsersIndexComponent {
     onFiltersChanged(filters: UsersFilters): void {
         console.debug('users-index@onFiltersChanged', filters);
         this.filters.set(filters);
+    }
+
+    onSortInputChanged(sortInput: string): void {
+        const [sortBy, sortDirection] = sortInput.split(' ');
+        if (sortBy && sortDirection && (sortDirection === 'asc' || sortDirection === 'desc')) {
+            this.sort.set({ sortBy, sortDirection: sortDirection as 'asc' | 'desc' });
+        }
+    }
+
+    toggleLoading(): void {
+        this.isLoading.set(!this.isLoading());
+    }
+
+    toggleSort(): void {
+        const columns = ['id', 'name', 'email', 'created_at'];
+        const directions = ['asc', 'desc'];
+
+        const column = columns[Math.floor(Math.random() * columns.length)];
+        const direction = directions[Math.floor(Math.random() * directions.length)];
+
+        this.sort.set({
+            sortBy: column,
+            sortDirection: direction as 'asc' | 'desc',
+        });
     }
 }

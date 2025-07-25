@@ -17,26 +17,27 @@
 
     <div class="card">
         <div class="card-body">
+            <div class="d-flex gap-3 align-items-center mb-3">
+                <pre class="m-0">loading {{ isLoading() }}</pre>
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    (click)="toggleLoading()"
+                >
+                    Toggle Loading
+                </button>
+            </div>
 
-            <button type="button" class="btn btn-primary" (click)="isLoading.set(!isLoading())">Toggle Loading</button>
-            <pre>Is Loading? {{ isLoading() }}</pre>
+            <app-users-filters [(value)]="filters"></app-users-filters>
 
-            <pre>users.index filters {{ filters() | json }}</pre>
-            <pre>users.index sort {{ sort() | json }}</pre>
-            
-            <app-users-filters
-                [value]="filters()"
-                (onFiltersChanged)="onFiltersChanged($event)"
-            ></app-users-filters>
-
-            <app-users-table
-                [users]="users()"
-                [isLoading]="isLoading()"
-                [sort]="sort()"
-                (onSortChanged)="onSortChanged($event)"
-                (onDeleteConfirmed)="onDeleteConfirmed($event)"
-            ></app-users-table>
-
+            @if (users() !== null) {
+                <app-users-table
+                    [users]="users()"
+                    [isLoading]="isLoading()"
+                    [(sort)]="sort"
+                    (deleteConfirmed)="onDeleteConfirmed($event)"
+                ></app-users-table>
+            }
         </div>
     </div>
 </div>

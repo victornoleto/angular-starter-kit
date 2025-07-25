@@ -10,7 +10,7 @@ export const authGuard: CanActivateFn = (route, state) => {
         // Verifica se o usuário está realmente autenticado (cookie + sessão válida)
         const isAuthenticated = authService.authState();
 
-        console.debug('AuthGuard status:', isAuthenticated);
+        //console.debug('AuthGuard status:', isAuthenticated);
 
         if (isAuthenticated) {
             return true;

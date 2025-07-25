@@ -16,17 +16,17 @@ export class AppComponent {
     ) {
         effect(() => {
             const isAuthenticated = this.authService.authState();
-            console.debug('Auth state changed', isAuthenticated);
+            //console.debug('Auth state changed', isAuthenticated);
             /* if (!isAuthenticated) {
                 this.router.navigate(['/auth/login']);
             } else {
                 this.router.navigate(['/dashboard']);
             } */
         });
-        console.debug('AppComponent constructed');
+        //console.debug('AppComponent constructed');
     }
 
     ngOnInit(): void {
-        console.log('AppComponent initialized', { env });
+        //console.log('AppComponent initialized', { env });
     }
 }

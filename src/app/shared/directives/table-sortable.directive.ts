@@ -1,4 +1,4 @@
-import { Directive, effect, ElementRef, input, model, output, signal } from '@angular/core';
+import { Directive, ElementRef, input, output, computed, model, effect } from '@angular/core';
 
 export interface TableSort {
     sortBy: string;
@@ -15,23 +15,20 @@ export const DEFAULT_SORT: TableSort = {
 })
 export class TableSortableDirective {
 
-    // Signal para armazenar a coluna atual sendo ordenada
-    currentSort = model<TableSort>();
-
-    // Output para emitir eventos de ordenação
-    readonly sortChange = output<TableSort>();
+    readonly sort = model.required<TableSort>({
+        alias: 'appTableSortable',
+    });
 
     constructor(private elementRef: ElementRef<HTMLTableElement>) {
-        this.setupTableSorting();
-    }
 
-    private setupTableSorting(): void {
         const table = this.elementRef.nativeElement;
 
+        table.classList.add('table-sortable');
+    
         // Adiciona event listener para clicks na tabela
         table.addEventListener('click', (event) => {
             const target = event.target as HTMLElement;
-
+    
             // Verifica se o elemento clicado é um th com data-sort
             if (target.tagName === 'TH' && target.hasAttribute('data-sort')) {
                 this.handleSort(target);
@@ -39,24 +36,18 @@ export class TableSortableDirective {
         });
 
         effect(() => {
-
-            const sort = this.currentSort();
-
-            if (sort) {
-                const th = table.querySelector(`th[data-sort="${sort.sortBy}"]`);
-                if (th) {
-                    this.updateHeaderClasses(th as HTMLElement, sort.sortDirection);
-                }
-            }
+            this.updateClasses();
         });
     }
 
     private handleSort(thElement: HTMLElement): void {
 
         const sortBy = thElement.getAttribute('data-sort');
+
         if (!sortBy) return;
 
-        const currentSort = this.currentSort();
+        const currentSort = this.sort();
+
         let sortDirection: 'asc' | 'desc' = 'asc';
 
         // Se é a mesma coluna, alterna a direção
@@ -65,19 +56,18 @@ export class TableSortableDirective {
         }
 
         const newSort: TableSort = { sortBy, sortDirection };
-        this.currentSort.set(newSort);
 
-        // Atualiza as classes visuais dos headers
-        this.updateHeaderClasses(thElement, sortDirection);
-
-        // Emite o evento
-        this.sortChange.emit(newSort);
+        // Atualizando o sort automaticamente as classes serão atualizadas
+        // através do effect que observa a mudança do sort
+        this.sort.set(newSort);
     }
 
-    private updateHeaderClasses(
-        activeHeader: HTMLElement,
-        direction: 'asc' | 'desc',
-    ): void {
+    private updateClasses(): void {
+
+        const currentSort = this.sort();
+
+        console.debug('Updating header classes for sort:', currentSort);
+
         const table = this.elementRef.nativeElement;
         const allHeaders = table.querySelectorAll('th[data-sort]');
 
@@ -86,7 +76,16 @@ export class TableSortableDirective {
             header.classList.remove('sorted-asc', 'sorted-desc');
         });
 
-        // Adiciona a classe apropriada ao header ativo
-        activeHeader.classList.add(`sorted-${direction}`);
+        if (currentSort) {
+
+            // Encontra o header correspondente ao sortBy atual e adiciona a classe
+            const activeHeader = Array.from(allHeaders).find(
+                (header) => header.getAttribute('data-sort') === currentSort.sortBy
+            );
+    
+            if (activeHeader) {
+                activeHeader.classList.add(`sorted-${currentSort.sortDirection}`);
+            }
+        }
     }
 }
