@@ -17,7 +17,7 @@
 
     <div class="card">
         <div class="card-body">
-            <div class="d-flex gap-3 align-items-center mb-3">
+            <div class="d-flex gap-3 align-items-ce nter mb-3">
                 <pre class="m-0">loading {{ isLoading() }}</pre>
                 <button
                     type="button"
@@ -30,11 +30,12 @@
 
             <app-users-filters [(value)]="filters"></app-users-filters>
 
-            @if (users() !== null) {
+            @if (users().data.length > 0) {
                 <app-users-table
                     [users]="users()"
                     [isLoading]="isLoading()"
                     [(sort)]="sort"
+                    [(pagination)]="pagination"
                     (deleteConfirmed)="onDeleteConfirmed($event)"
                 ></app-users-table>
             }

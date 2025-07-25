@@ -8,7 +8,7 @@ import {
     linkedSignal,
 } from '@angular/core';
 import { UsersService } from '../../users.service';
-import { DEFAULT_PAGINATION, LengthAwarePaginator, Paginator } from '../../../../shared/models/paginator';
+import { DEFAULT_COLLECTION, DEFAULT_PAGINATION, LengthAwarePaginator, Paginator } from '../../../../shared/models/paginator';
 import { User } from '../../models/user.model';
 import { UsersTableComponent } from './components/users-table/users-table.component';
 import { DEFAULT_SORT, TableSort } from '../../../../shared/directives/table-sortable.directive';
@@ -46,27 +46,24 @@ export class UsersIndexComponent {
         search: ''
     });
 
-    usersSearch = signal<UsersSearch | null>(null);
+    users = signal<LengthAwarePaginator<User>>(DEFAULT_COLLECTION);
 
-    count = signal<number>(10);
-
-    private readonly updateUsersSearch = effect(() => {
+    usersSearch = computed<UsersSearch | null>(() => {
         const sort = this.sort();
         const pagination = this.pagination();
         const filters = this.filters();
-
-        console.debug('users-index@updateUsersSearch', { sort, pagination, filters });
-
-        if (sort !== null && pagination !== null && filters !== null) {
-            this.usersSearch.set({
+        if (sort && pagination && filters) {
+            return {
                 sort,
                 pagination,
                 filters,
-            });
-        } else {
-            this.usersSearch.set(null);
+            };
         }
+        return null;
     });
+
+    isLoading = signal<boolean>(true);
+    error = signal<string | null>(null);
 
     constructor() {
         effect(() => {
@@ -76,11 +73,6 @@ export class UsersIndexComponent {
             }
         });
     }
-
-    users = signal<LengthAwarePaginator<User> | null>(null);
-
-    isLoading = signal<boolean>(true);
-    error = signal<string | null>(null);
 
     refresh(): void {
 
@@ -131,32 +123,7 @@ export class UsersIndexComponent {
         }); */
     }
 
-    onFiltersChanged(filters: UsersFilters): void {
-        console.debug('users-index@onFiltersChanged', filters);
-        this.filters.set(filters);
-    }
-
-    onSortInputChanged(sortInput: string): void {
-        const [sortBy, sortDirection] = sortInput.split(' ');
-        if (sortBy && sortDirection && (sortDirection === 'asc' || sortDirection === 'desc')) {
-            this.sort.set({ sortBy, sortDirection: sortDirection as 'asc' | 'desc' });
-        }
-    }
-
     toggleLoading(): void {
         this.isLoading.set(!this.isLoading());
-    }
-
-    toggleSort(): void {
-        const columns = ['id', 'name', 'email', 'created_at'];
-        const directions = ['asc', 'desc'];
-
-        const column = columns[Math.floor(Math.random() * columns.length)];
-        const direction = directions[Math.floor(Math.random() * directions.length)];
-
-        this.sort.set({
-            sortBy: column,
-            sortDirection: direction as 'asc' | 'desc',
-        });
     }
 }

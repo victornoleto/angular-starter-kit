@@ -1,5 +1,5 @@
 import { Component, computed, input, linkedSignal, model, output, signal, Signal } from '@angular/core';
-import { LengthAwarePaginator } from '../../../../../../shared/models/paginator';
+import { LengthAwarePaginator, Paginator } from '../../../../../../shared/models/paginator';
 import { User } from '../../../../models/user.model';
 import { PerPageComponent } from '../../../../../../shared/components/form/per-page/per-page.component';
 import { PaginationComponent, PaginationProps } from '../../../../../../shared/components/pagination/pagination.component';
@@ -38,6 +38,7 @@ export class UsersTableComponent {
     readonly users = input.required<LengthAwarePaginator<User>>();
     readonly isLoading = input.required<boolean>();
     readonly sort = model.required<TableSort>();
+    readonly pagination = model.required<Paginator>();
 
     deleteConfirmed = output<User>();
 }
